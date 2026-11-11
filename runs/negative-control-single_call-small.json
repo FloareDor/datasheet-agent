@@ -1,0 +1,79 @@
+{
+  "method": "single_call",
+  "backend": "small",
+  "datasheets": 30,
+  "fields_checked": [
+    "slew_rate",
+    "gain_bandwidth_product",
+    "input_offset_voltage"
+  ],
+  "invented": {
+    "slew_rate": 1,
+    "gain_bandwidth_product": 8,
+    "input_offset_voltage": 10
+  },
+  "invention_rate": 0.2111,
+  "examples": [
+    {
+      "part": "FairchildSemiconductor_KSB907TU",
+      "field": "input_offset_voltage",
+      "value": "-0.0"
+    },
+    {
+      "part": "ONSemiconductor_BC489G",
+      "field": "input_offset_voltage",
+      "value": "-0.8"
+    },
+    {
+      "part": "ONSemiconductor_MMBTA92LT1G",
+      "field": "input_offset_voltage",
+      "value": "-0.9 mV"
+    },
+    {
+      "part": "DiodesIncorporated_FCX495TC",
+      "field": "gain_bandwidth_product",
+      "value": "100"
+    },
+    {
+      "part": "Sanken_2SD2082",
+      "field": "slew_rate",
+      "value": "10"
+    },
+    {
+      "part": "Sanken_2SD2082",
+      "field": "gain_bandwidth_product",
+      "value": "1000"
+    },
+    {
+      "part": "ONSemiconductor_MPSA12",
+      "field": "input_offset_voltage",
+      "value": "-1.4"
+    },
+    {
+      "part": "MicroCommercialCo_MPSA92AP",
+      "field": "gain_bandwidth_product",
+      "value": "50"
+    },
+    {
+      "part": "NXPUSAInc_BUJ105AD118",
+      "field": "input_offset_voltage",
+      "value": "-0.5"
+    },
+    {
+      "part": "STMicroelectronics_MJD2955T4",
+      "field": "input_offset_voltage",
+      "value": "-0.5 mV"
+    }
+  ],
+  "all_fields": [
+    "supply_voltage_max",
+    "gain_bandwidth_product",
+    "slew_rate",
+    "input_offset_voltage",
+    "operating_temp_min",
+    "operating_temp_max",
+    "package_case",
+    "num_channels",
+    "mounting_style"
+  ]
+}

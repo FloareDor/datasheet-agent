@@ -1,0 +1,9 @@
+data/
+.venv/
+__pycache__/
+*.pyc
+.env
+# runs/ is the evidence base for every number in the README - it is committed.
+*.egg-info/
+.pytest_cache/
+context/.*_list.txt

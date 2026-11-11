@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DatasheetAgent</title>
+    <style>
+      :root {
+        --bg: #0e1116;
+        --panel: #161b22;
+        --line: #272e38;
+        --text: #e6edf3;
+        --muted: #8b949e;
+        --accent: #4493f8;
+        --good: #3fb950;
+        --bad: #f85149;
+        --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+      }
+      @media (prefers-color-scheme: light) {
+        :root:not([data-theme="dark"]) {
+          --bg: #ffffff;
+          --panel: #f6f8fa;
+          --line: #d8dee4;
+          --text: #1f2328;
+          --muted: #636c76;
+          --accent: #0969da;
+        }
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      }
+      .wrap { max-width: 880px; margin: 0 auto; padding: 48px 16px 72px; }
+      h1 { font-size: 26px; margin: 0 0 6px; letter-spacing: -0.01em; }
+      .sub { color: var(--muted); margin: 0 0 32px; }
+      .card {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 20px;
+      }
+      label { display: block; font-weight: 600; font-size: 13px; margin: 0 0 6px; }
+      .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+      @media (max-width: 620px) { .row { grid-template-columns: 1fr; } }
+      input[type="text"], input[type="file"] {
+        width: 100%;
+        padding: 9px 11px;
+        background: var(--bg);
+        border: 1px solid var(--line);
+        border-radius: 7px;
+        color: var(--text);
+        font-size: 14px;
+      }
+      .opt { display: flex; align-items: center; gap: 8px; margin: 18px 0; color: var(--muted); font-size: 14px; }
+      button {
+        margin-top: 4px;
+        padding: 10px 18px;
+        background: var(--accent);
+        color: #fff;
+        border: 0;
+        border-radius: 7px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      button:disabled { opacity: 0.55; cursor: progress; }
+      #status { margin-top: 16px; color: var(--muted); font-size: 14px; min-height: 20px; }
+      table { width: 100%; border-collapse: collapse; margin-top: 24px; }
+      th, td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+      th { font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); }
+      td.field { font-family: var(--mono); font-size: 13px; }
+      td.value { font-weight: 600; }
+      td.evidence { color: var(--muted); font-size: 13px; }
+      .pill { display: inline-block; padding: 1px 7px; border-radius: 99px; font-size: 11px; font-weight: 600; }
+      .pill.repaired { background: rgba(63, 185, 80, 0.15); color: var(--good); }
+      .pill.rejected { background: rgba(248, 81, 73, 0.15); color: var(--bad); }
+      .meta { margin-top: 20px; color: var(--muted); font-size: 13px; font-family: var(--mono); }
+      .empty { color: var(--muted); font-style: italic; font-weight: 400; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>DatasheetAgent</h1>
+      <p class="sub">
+        Parallel tool-using agents read a datasheet and fill in a spec sheet. Every value is
+        checked against the line it came from before you see it.
+      </p>
+
+      <form class="card" id="form">
+        <div class="row">
+          <div>
+            <label for="part">Orderable part number</label>
+            <input type="text" id="part" name="part_number" placeholder="OPA2991IDR" required />
+          </div>
+          <div>
+            <label for="file">Datasheet PDF</label>
+            <input type="file" id="file" name="file" accept="application/pdf" required />
+          </div>
+        </div>
+        <div class="opt">
+          <input type="checkbox" id="verifier" checked />
+          <label for="verifier" style="margin: 0; font-weight: 400">
+            Run the verifier (checks each value against its source, retries what fails)
+          </label>
+        </div>
+        <button type="submit" id="go">Extract specs</button>
+        <div id="status"></div>
+      </form>
+
+      <div id="out"></div>
+    </div>
+
+    <script>
+      const form = document.getElementById("form");
+      const status = document.getElementById("status");
+      const out = document.getElementById("out");
+      const go = document.getElementById("go");
+
+      const escape = (s) =>
+        String(s).replace(/[&<>"']/g, (c) =>
+          ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c],
+        );
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const file = document.getElementById("file").files[0];
+        const part = document.getElementById("part").value.trim();
+        if (!file || !part) return;
+
+        const body = new FormData();
+        body.append("file", file);
+        body.append("part_number", part);
+        body.append("verifier", document.getElementById("verifier").checked);
+
+        go.disabled = true;
+        out.innerHTML = "";
+        status.textContent = "Indexing the datasheet and running the agents…";
+        const started = performance.now();
+
+        try {
+          const response = await fetch("/extract", { method: "POST", body });
+          if (!response.ok) {
+            const detail = await response.text();
+            throw new Error(detail || `HTTP ${response.status}`);
+          }
+          render(await response.json(), (performance.now() - started) / 1000);
+          status.textContent = "";
+        } catch (error) {
+          status.textContent = `Failed: ${error.message}`;
+        } finally {
+          go.disabled = false;
+        }
+      });
+
+      function render(data, seconds) {
+        const repaired = new Set(data.repaired_fields || []);
+        const rejected = new Map((data.rejected || []).map((r) => [r.field, r.reason]));
+
+        const rows = Object.entries(data.values || {})
+          .map(([field, value]) => {
+            const tags = [
+              repaired.has(field) ? '<span class="pill repaired">repaired</span>' : "",
+              rejected.has(field) ? '<span class="pill rejected">flagged</span>' : "",
+            ].join(" ");
+            const shown = value
+              ? escape(value)
+              : '<span class="empty">not stated</span>';
+            const evidence = data.evidence?.[field]
+              ? escape(data.evidence[field])
+              : rejected.get(field)
+                ? escape(rejected.get(field))
+                : "";
+            return `<tr>
+              <td class="field">${escape(field)}</td>
+              <td class="value">${shown} ${tags}</td>
+              <td class="evidence">${evidence}</td>
+            </tr>`;
+          })
+          .join("");
+
+        const usage = data.usage || {};
+        out.innerHTML = `
+          <table>
+            <thead><tr><th>Field</th><th>Value</th><th>Evidence</th></tr></thead>
+            <tbody>${rows}</tbody>
+          </table>
+          <div class="meta">
+            ${data.tool_calls} tool calls ·
+            ${usage.input_tokens ?? 0} in / ${usage.output_tokens ?? 0} out tokens ·
+            ${seconds.toFixed(1)}s
+            ${data.error ? ` · ${escape(data.error)}` : ""}
+          </div>`;
+      }
+    </script>
+  </body>
+</html>

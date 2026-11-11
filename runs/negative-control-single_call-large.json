@@ -1,0 +1,79 @@
+{
+  "method": "single_call",
+  "backend": "large",
+  "datasheets": 30,
+  "fields_checked": [
+    "slew_rate",
+    "gain_bandwidth_product",
+    "input_offset_voltage"
+  ],
+  "invented": {
+    "slew_rate": 0,
+    "gain_bandwidth_product": 10,
+    "input_offset_voltage": 0
+  },
+  "invention_rate": 0.1111,
+  "examples": [
+    {
+      "part": "ONSemiconductor_BC489G",
+      "field": "gain_bandwidth_product",
+      "value": "200 MHz"
+    },
+    {
+      "part": "ONSemiconductor_MMBTA92LT1G",
+      "field": "gain_bandwidth_product",
+      "value": "50 MHz"
+    },
+    {
+      "part": "BournsInc_TIPL761AS",
+      "field": "gain_bandwidth_product",
+      "value": "12 MHz"
+    },
+    {
+      "part": "MicroCommercialCo_MPSA92AP",
+      "field": "gain_bandwidth_product",
+      "value": "50 MHz"
+    },
+    {
+      "part": "FairchildSemiconductor_TN3440A",
+      "field": "gain_bandwidth_product",
+      "value": "15 MHz"
+    },
+    {
+      "part": "FairchildSemiconductor_KSD1221GTU",
+      "field": "gain_bandwidth_product",
+      "value": "3 MHz"
+    },
+    {
+      "part": "ONSemiconductor_MJW3281A",
+      "field": "gain_bandwidth_product",
+      "value": "30 MHz"
+    },
+    {
+      "part": "ONSemiconductor_NSS40300MZ4T1G",
+      "field": "gain_bandwidth_product",
+      "value": "160 MHz"
+    },
+    {
+      "part": "ONSemiconductor_MPS4126RLRA",
+      "field": "gain_bandwidth_product",
+      "value": "170 MHz"
+    },
+    {
+      "part": "DiodesIncorporated_ZXTP26020DMFTA",
+      "field": "gain_bandwidth_product",
+      "value": "200 MHz"
+    }
+  ],
+  "all_fields": [
+    "supply_voltage_max",
+    "gain_bandwidth_product",
+    "slew_rate",
+    "input_offset_voltage",
+    "operating_temp_min",
+    "operating_temp_max",
+    "package_case",
+    "num_channels",
+    "mounting_style"
+  ]
+}

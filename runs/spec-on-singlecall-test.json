@@ -1,0 +1,2922 @@
+{
+  "headline": {
+    "method": "single_call",
+    "model": "Qwen/Qwen2.5-1.5B-Instruct",
+    "parts": 40,
+    "accuracy": 0.5661,
+    "correct": 197,
+    "graded": 348,
+    "tokens_in_per_part": 15231.0,
+    "tokens_out_per_part": 409.9,
+    "llm_calls_per_part": 1.0,
+    "tool_calls_per_part": 0.0,
+    "cost_usd_per_part": 0.0,
+    "latency_s_per_part": 20.59,
+    "wall_seconds": 206.8,
+    "errors": 5,
+    "verifier_rejections": 0,
+    "fields_repaired": 0
+  },
+  "per_field": {
+    "gain_bandwidth_product": {
+      "correct": 21,
+      "graded": 39,
+      "accuracy": 0.5385
+    },
+    "input_offset_voltage": {
+      "correct": 6,
+      "graded": 38,
+      "accuracy": 0.1579
+    },
+    "mounting_style": {
+      "correct": 27,
+      "graded": 39,
+      "accuracy": 0.6923
+    },
+    "num_channels": {
+      "correct": 28,
+      "graded": 40,
+      "accuracy": 0.7
+    },
+    "operating_temp_max": {
+      "correct": 31,
+      "graded": 39,
+      "accuracy": 0.7949
+    },
+    "operating_temp_min": {
+      "correct": 30,
+      "graded": 39,
+      "accuracy": 0.7692
+    },
+    "package_case": {
+      "correct": 13,
+      "graded": 40,
+      "accuracy": 0.325
+    },
+    "slew_rate": {
+      "correct": 21,
+      "graded": 40,
+      "accuracy": 0.525
+    },
+    "supply_voltage_max": {
+      "correct": 20,
+      "graded": 34,
+      "accuracy": 0.5882
+    }
+  },
+  "parts": [
+    {
+      "part_number": "LM301ADR2G",
+      "accuracy": 0.5,
+      "correct": 4,
+      "graded": 8,
+      "seconds": 164.83,
+      "error": "",
+      "values": {
+        "supply_voltage_max": "\u00b122",
+        "gain_bandwidth_product": "",
+        "slew_rate": "",
+        "input_offset_voltage": "7.5 mV",
+        "operating_temp_min": "-25 \u00b0C",
+        "operating_temp_max": "+85 \u00b0C",
+        "package_case": "SOIC\u22128",
+        "num_channels": "1",
+        "mounting_style": "SMD/SMT"
+      },
+      "evidence": {
+        "supply_voltage_max": "Figure 1",
+        "gain_bandwidth_product": "Not stated in the datasheet",
+        "slew_rate": "Not stated in the datasheet",
+        "input_offset_voltage": "Figure 1",
+        "operating_temp_min": "Figure 1",
+        "operating_temp_max": "Figure 1",
+        "package_case": "Figure 1",
+        "num_channels": "Figure 1",
+        "mounting_style": "Figure 1"
+      },
+      "usage": {
+        "input_tokens": 6288,
+        "output_tokens": 266,
+        "calls": 1,
+        "seconds": 164.813,
+        "cost_usd": 0.0
+      },
+      "tool_calls": 0,
+      "steps": 1,
+      "pre_retry_values": {},
+      "verification": {
+        "checked": 0,
+        "rejected": [],
+        "usage": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "calls": 0,
+          "seconds": 0.0,
+          "cost_usd": null
+        }
+      },
+      "retried_fields": [],
+      "repaired_fields": [],
+      "wrong_fields": [
+        {
+          "field": "gain_bandwidth_product",
+          "predicted": "",
+          "label": "1 MHz"
+        },
+        {
+          "field": "slew_rate",
+          "predicted": "",
+          "label": "0.5 V/us"
+        },
+        {
+          "field": "operating_temp_min",
+          "predicted": "-25 \u00b0C",
+          "label": "0 C"
+        },
+        {
+          "field": "operating_temp_max",
+          "predicted": "+85 \u00b0C",
+          "label": "+ 70 C"
+        }
+      ]
+    },
+    {
+      "part_number": "TS27L4AIPT",
+      "accuracy": 0.5556,
+      "correct": 5,
+      "graded": 9,
+      "seconds": 165.26,
+      "error": "",
+      "values": {
+        "supply_voltage_max": "10",
+        "gain_bandwidth_product": "0.1",
+        "slew_rate": "0.04",
+        "input_offset_voltage": "1.1",
+        "operating_temp_min": "-65",
+        "operating_temp_max": "+150",
+        "package_case": "TSSOP14",
+        "num_channels": "4",
+        "mounting_style": "SMD/SMT"
+      },
+      "evidence": {
+        "supply_voltage_max": "Table 1. Absolute maximum ratings",
+        "gain_bandwidth_product": "Table 3. Electrical characteristics",
+        "slew_rate": "Table 3. Electrical characteristics",
+        "input_offset_voltage": "Table 3. Electrical characteristics",
+        "operating_temp_min": "Table 2. Operating conditions",
+        "operating_temp_max": "Table 2. Operating conditions",
+        "package_case": "Table 6. Package information",
+        "num_channels": "Table 6. Package information",
+        "mounting_style": "Table 6. Package information"
+      },
+      "usage": {
+        "input_tokens": 7362,
+        "output_tokens": 288,
+        "calls": 1,
+        "seconds": 165.104,
+        "cost_usd": 0.0
+      },
+      "tool_calls": 0,
+      "steps": 1,
+      "pre_retry_values": {},
+      "verification": {
+        "checked": 0,
+        "rejected": [],
+        "usage": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "calls": 0,
+          "seconds": 0.0,
+          "cost_usd": null
+        }
+      },
+      "retried_fields": [],
+      "repaired_fields": [],
+      "wrong_fields": [
+        {
+          "field": "supply_voltage_max",
+          "predicted": "10",
+          "label": "16 V"
+        },
+        {
+          "field": "input_offset_voltage",
+          "predicted": "1.1",
+          "label": "5 mV"
+        },
+        {
+          "field": "operating_temp_min",
+          "predicted": "-65",
+          "label": "- 55 C"
+        },
+        {
+          "field": "operating_temp_max",
+          "predicted": "+150",
+          "label": "+ 125 C"
+        }
+      ]
+    },
+    {
+      "part_number": "TL103WAIDR",
+      "accuracy": 0.8889,
+      "correct": 8,
+      "graded": 9,
+      "seconds": 165.46,
+      "error": "",
+      "values": {
+        "supply_voltage_max": "36",
+        "gain_bandwidth_product": "0.9",
+        "slew_rate": "0.4",
+        "input_offset_voltage": "3",
+        "operating_temp_min": "-40",
+        "operating_temp_max": "105",
+        "package_case": "SOIC-8",
+        "num_channels": "2",
+        "mounting_style": "SMD/SMT"
+      },
+      "evidence": {
+        "supply_voltage_max": "Table 6.1 Absolute Maximum Ratings",
+        "gain_bandwidth_product": "Table 6.1 Absolute Maximum Ratings",
+        "slew_rate": "Table 6.1 Absolute Maximum Ratings",
+        "input_offset_voltage": "Table 6.1 Absolute Maximum Ratings",
+        "operating_temp_min": "Table 6.3 Recommended Operating Conditions",
+        "operating_temp_max": "Table 6.3 Recommended Operating Conditions",
+        "package_case": "Table 5 Device and Documentation Support",
+        "num_channels": "Table 5 Device and Documentation Support",
+        "mounting_style": "Table 5 Device and Documentation Support"
+      },
+      "usage": {
+        "input_tokens": 10381,
+        "output_tokens": 298,
+        "calls": 1,
+        "seconds": 165.3,
+        "cost_usd": 0.0
+      },
+      "tool_calls": 0,
+      "steps": 1,
+      "pre_retry_values": {},
+      "verification": {
+        "checked": 0,
+        "rejected": [],
+        "usage": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "calls": 0,
+          "seconds": 0.0,
+          "cost_usd": null
+        }
+      },
+      "retried_fields": [],
+      "repaired_fields": [],
+      "wrong_fields": [
+        {
+          "field": "supply_voltage_max",
+          "predicted": "36",
+          "label": "32 V"
+        }
+      ]
+    },
+    {
+      "part_number": "TSU104IQ4T",
+      "accuracy": 0.625,
+      "correct": 5,
+      "graded": 8,
+      "seconds": 166.53,
+      "error": "",
+      "values": {
+        "supply_voltage_max": "5.5",
+        "gain_bandwidth_product": "8 kHz",
+        "slew_rate": "3 ms/V",
+        "input_offset_voltage": "3.4",
+        "operating_temp_min": "-40",
+        "operating_temp_max": "85",
+        "package_case": "QFN16 3x3",
+        "num_channels": "4",
+        "mounting_style": "Through Hole"
+      },
+      "evidence": {
+        "supply_voltage_max": "Table 3: Electrical characteristics at VCC+ = 5 V with VCC- = 0 V, Vicm = VCC/2, Tamb = 25 \u00b0 C, and RL = 1 M\u03a9 connected to VCC/2",
+        "gain_bandwidth_product": "Table 3: Electrical characteristics at VCC+ = 5 V with VCC- = 0 V, Vicm = VCC/2, Tamb = 25 \u00b0 C, and RL = 1 M\u03a9 connected to VCC/2",
+        "slew_rate": "Table 3: Electrical characteristics at VCC+ = 5 V with VCC- = 0 V, Vicm = VCC/2, Tamb = 25 \u00b0 C, and RL = 1 M\u03a9 connected to VCC/2",
+        "input_offset_voltage": "Table 3: Electrical characteristics at VCC+ = 5 V with VCC- = 0 V, Vicm = VCC/2, Tamb = 25 \u00b0 C, and RL = 1 M\u03a9 connected to VCC/2",
+        "operating_temp_min": "Table 2: Absolute maximum ratings and operating conditions",
+        "operating_temp_max": "Table 2: Absolute maximum ratings and operating conditions",
+        "package_case": "Table 12: Order codes",
+        "num_channels": "Table 12: Order codes",
+        "mounting_style": "Table 12: Order codes"
+      },
+      "usage": {
+        "input_tokens": 13614,
+        "output_tokens": 481,
+        "calls": 1,
+        "seconds": 166.286,
+        "cost_usd": 0.0
+      },
+      "tool_calls": 0,
+      "steps": 1,
+      "pre_retry_values": {},
+      "verification": {
+        "checked": 0,
+        "rejected": [],
+        "usage": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "calls": 0,
+          "seconds": 0.0,
+          "cost_usd": null
+        }
+      },
+      "retried_fields": [],
+      "repaired_fields": [],
+      "wrong_fields": [
+        {
+          "field": "input_offset_voltage",
+          "predicted": "3.4",
+          "label": "100 uV"
+        },
+        {
+          "field": "num_channels",
+          "predicted": "4",
+          "label": "1 Channel"
+        },
+        {
+          "field": "mounting_style",
+          "predicted": "Through Hole",
+          "label": "SMD/SMT"
+        }
+      ]
+    },
+    {
+      "part_number": "AS358P-E1",
+      "accuracy": 0.4444,
+      "correct": 4,
+      "graded": 9,
+      "seconds": 3.57,
+      "error": "",
+      "values": {
+        "supply_voltage_max": "36",
+        "gain_bandwidth_product": "100",
+        "slew_rate": "",
+        "input_offset_voltage": "4",
+        "operating_temp_min": "-40",
+        "operating_temp_max": "+85",
+        "package_case": "TSSOP-8",
+        "num_channels": "2",
+        "mounting_style": "SMD/SMT"
+      },
+      "evidence": {
+        "supply_voltage_max": "Notes: 4. Stresses greater than those listed under \u2018Absolute Maximum Ratings\u2019 may cause permanent damage to the device. These are stress ratings only, and functional operation of the device at these or any other conditions beyond those indicated under \u2018Recommended Operating Conditions\u2019 is not implied.",
+        "gain_bandwidth_product": "Typical Applications Circuit",
+        "slew_rate": "Not mentioned in the datasheet",
+        "input_offset_voltage": "Typical Applications Circuit",
+        "operating_temp_min": "Recommended Operating Conditions",
+        "operating_temp_max": "Recommended Operating Conditions",
+        "package_case": "Package Outline Dimensions",
+        "num_channels": "Package Outline Dimensions",
+        "mounting_style": "Package Outline Dimensions"
+      },
+      "usage": {
+        "input_tokens": 9921,
+        "output_tokens": 311,
+        "calls": 1,
+        "seconds": 3.523,
+        "cost_usd": 0.0
+      },
+      "tool_calls": 0,
+      "steps": 1,
+      "pre_retry_values": {},
+      "verification": {
+        "checked": 0,
+        "rejected": [],
+        "usage": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "calls": 0,
+          "seconds": 0.0,
+          "cost_usd": null
+        }
+      },
+      "retried_fields": [],
+      "repaired_fields": [],
+      "wrong_fields": [
+        {
+          "field": "gain_bandwidth_product",
+          "predicted": "100",
+          "label": "-"
+        },
+        {
+          "field": "slew_rate",
+          "predicted": "",
+          "label": "-"
+        },
+        {
+          "field": "input_offset_voltage",
+          "predicted": "4",
+          "label": "2 mV"
+        },
+        {
+          "field": "package_case",
+          "predicted": "TSSOP-8",
+          "label": "DIP-8"
+        },
+        {
+          "field": "mounting_style",
+          "predicted": "SMD/SMT",
+          "label": "Through Hole"
+        }
+      ]
+    },
+    {
+      "part_number": "TS921IPT",
+      "accuracy": 1.0,
+      "correct": 9,
+      "graded": 9,
+      "seconds": 2.42,
+      "error": "",
+      "values": {
+        "supply_voltage_max": "12",
+        "gain_bandwidth_product": "4",
+        "slew_rate": "1.3",
+        "input_offset_voltage": "3",
+        "operating_temp_min": "-40",
+        "operating_temp_max": "125",
+        "package_case": "TSSOP8",
+        "num_channels": "1",
+        "mounting_style": "SMD/SMT"
+      },
+      "evidence": {
+        "supply_voltage_max": "Table 3",
+        "gain_bandwidth_product": "Table 4",
+        "slew_rate": "Table 4",
+        "input_offset_voltage": "Table 4",
+        "operating_temp_min": "Table 3",
+        "operating_temp_max": "Table 3",
+        "package_case": "Table 1",
+        "num_channels": "Table 1",
+        "mounting_style": "Table 1"
+      },
+      "usage": {
+        "input_tokens": 8374,
+        "output_tokens": 254,
+        "calls": 1,
+        "seconds": 2.373,
+        "cost_usd": 0.0
+      },
+      "tool_calls": 0,
+      "steps": 1,
+      "pre_retry_values": {},
+      "verification": {
+        "checked": 0,
+        "rejected": [],
+        "usage": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "calls": 0,
+          "seconds": 0.0,
+          "cost_usd": null
+        }
+      },
+      "retried_fields": [],
+      "repaired_fields": [],
+      "wrong_fields": []
+    },
+    {
+      "part_number": "MAX4291EUK+T",
+      "accuracy": 0.0,
+      "correct": 0,
+      "graded": 9,
+      "seconds": 3.58,
+      "error": "unparseable response",
+      "values": {},
+      "evidence": {},
+      "usage": {
+        "input_tokens": 14495,
+        "output_tokens": 271,
+        "calls": 1,
+        "seconds": 3.539,
+        "cost_usd": 0.0
+      },
+      "tool_calls": 0,
+      "steps": 1,
+      "pre_retry_values": {},
+      "verification": {
+        "checked": 0,
+        "rejected": [],
+        "usage": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "calls": 0,
+          "seconds": 0.0,
+          "cost_usd": null
+        }
+      },
+      "retried_fields": [],
+      "repaired_fields": [],
+      "wrong_fields": [
+        {
+          "field": "supply_voltage_max",
+          "predicted": "",
+          "label": "5.5 V"
+        },
+        {
+          "field": "gain_bandwidth_product",
+          "predicted": "",
+          "label": "500 kHz"
+        },
+        {
+          "field": "slew_rate",
+          "predicted": "",
+          "label": "0.2 V/us"
+        },
+        {
+          "field": "input_offset_voltage",
+          "predicted": "",
+          "label": "2.5 mV"
+        },
+        {
+          "field": "operating_temp_min",
+          "predicted": "",
+          "label": "- 40 C"
+        },
+        {
+          "field": "operating_temp_max",
+          "predicted": "",
+          "label": "+ 85 C"
+        },
+        {
+          "field": "package_case",
+          "predicted": "",
+          "label": "SOT-23-5"
+        },
+        {
+          "field": "num_channels",
+          "predicted": "",
+          "label": "1 Channel"
+        },
+        {
+          "field": "mounting_style",
+          "predicted": "",
+          "label": "SMD/SMT"
+        }
+      ]
+    },
+    {
+      "part_number": "LT1970AIFE#PBF",
+      "accuracy": 1.0,
+      "correct": 5,
+      "graded": 5,
+      "seconds": 5.81,
+      "error": "",
+      "values": {
+        "supply_voltage_max": "36",
+        "gain_bandwidth_product": "3.6",
+        "slew_rate": "1.6",
+        "input_offset_voltage": "",
+        "operating_temp_min": "-40",
+        "operating_temp_max": "85",
+        "package_case": "20-Lead Plastic TSSOP",
+        "num_channels": "1",
+        "mounting_style": "SMD/SMT"
+      },
+      "evidence": {
+        "supply_voltage_max": "Supply Voltage (VCC to VEE)...................................... 36V",
+        "gain_bandwidth_product": "Gain-Bandwidth Product\nf = 10kHz\n3.6\nMHz",
+        "slew_rate": "Slew Rate\n\u201310V < VOUT < 10V, RL = 1k\n0.7\n1.6\nV/\u00b5s",
+        "input_offset_voltage": "Not mentioned in the datasheet.",
+        "operating_temp_min": "Operational Temperature Range (Note 2)\nLT1970AC................................................. 0\u00b0C to 70\u00b0C",
+        "operating_temp_max": "Operational Temperature Range (Note 2)\nLT1970AC................................................. 0\u00b0C to 70\u00b0C",
+        "package_case": "Package Description\n20-Lead Plastic TSSOP",
+        "num_channels": "Number of amplifier channels in the package (1, 2 or 4).\n1",
+        "mounting_style": "Mounting style: 'SMD/SMT' for surface mount, 'Through Hole'"
+      },
+      "usage": {
+        "input_tokens": 20271,
+        "output_tokens": 407,
+        "calls": 1,
+        "seconds": 5.741,
+        "cost_usd": 0.0
+      },
+      "tool_calls": 0,
+      "steps": 1,
+      "pre_retry_values": {},
+      "verification": {
+        "checked": 0,
+        "rejected": [],
+        "usage": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "calls": 0,
+          "seconds": 0.0,
+          "cost_usd": null
+        }
+      },
+      "retried_fields": [],
+      "repaired_fields": [],
+      "wrong_fields": []
+    },
+    {
+      "part_number": "AD8002ARZ",
+      "accuracy": 0.875,
+      "correct": 7,
+      "graded": 8,
+      "seconds": 3.96,
+      "error": "",
+      "values": {
+        "supply_voltage_max": "\u00b15.0",
+        "gain_bandwidth_product": "600 MHz",
+        "slew_rate": "1200 V/\u03bcs",
+        "input_offset_voltage": "2.0",
+        "operating_temp_min": "-40",
+        "operating_temp_max": "+85",
+        "package_case": "8-lead SOIC",
+        "num_channels": "2",
+        "mounting_style": "SMD/SMT"
+      },
+      "evidence": {
+        "supply_voltage_max": "Table 1",
+        "gain_bandwidth_product": "Table 1",
+        "slew_rate": "Table 1",
+        "input_offset_voltage": "Table 1",
+        "operating_temp_min": "Table 1",
+        "operating_temp_max": "Table 1",
+        "package_case": "Table 1",
+        "num_channels": "Table 1",
+        "mounting_style": "Table 1"
+      },
+      "usage": {
+        "input_tokens": 16659,
+        "output_tokens": 266,
+        "calls": 1,
+        "seconds": 3.904,
+        "cost_usd": 0.0
+      },
+      "tool_calls": 0,
+      "steps": 1,
+      "pre_retry_values": {},
+      "verification": {
+        "checked": 0,
+        "rejected": [],
+        "usage": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "calls": 0,
+          "seconds": 0.0,
+          "cost_usd": null
+        }
+      },
+      "retried_fields": [],
+      "repaired_fields": [],
+      "wrong_fields": [
+        {
+          "field": "supply_voltage_max",
+          "predicted": "\u00b15.0",
+          "label": "12 V"
+        }
+      ]
+    },
+    {
+      "part_number": "MAX4163EBL+T",
+      "accuracy": 0.4444,
+      "correct": 4,
+      "graded": 9,
+      "seconds": 5.23,
+      "error": "",
+      "values": {
+        "supply_voltage_max": "10.0",
+        "gain_bandwidth_product": "200",
+        "slew_rate": "115",
+        "input_offset_voltage": "\u00b15",
+        "operating_temp_min": "-40",
+        "operating_temp_max": "85",
+        "package_case": "8 UCSP",
+        "num_channels": "4",
+        "mounting_style": "SMD/SMT"
+      },
+      "evidence": {
+        "supply_voltage_max": "Supply Voltage (VDD to VSS).................................................11V",
+        "gain_bandwidth_product": "Gain-Bandwidth Product.......................................................200kHz",
+        "slew_rate": "Slew Rate.................................................................115V/ms",
+        "input_offset_voltage": "Input Offset Voltage.....................................................\u00b10.5mV to \u00b15mV",
+        "operating_temp_min": "Operating Temperature Range...............................................-40\u00b0C to +85\u00b0C",
+        "operating_temp_max": "Operating Temperature Range...............................................-40\u00b0C to +85\u00b0C",
+        "package_case": "UCSP Package (MAX4163)",
+        "num_channels": "Number of amplifier channels in the package (1, 2 or 4).",
+        "mounting_style": "Pin Configuration appears at end of data sheet."
+      },
+      "usage": {
+        "input_tokens": 11928,
+        "output_tokens": 346,
+        "calls": 1,
+        "seconds": 5.17,
+        "cost_usd": 0.0
+      },
+      "tool_calls": 0,
+      "steps": 1,
+      "pre_retry_values": {},
+      "verification": {
+        "checked": 0,
+        "rejected": [],
+        "usage": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "calls": 0,
+          "seconds": 0.0,
+          "cost_usd": null
+        }
+      },
+      "retried_fields": [],
+      "repaired_fields": [],
+      "wrong_fields": [
+        {
+          "field": "gain_bandwidth_product",
+          "predicted": "200",
+          "label": "200 kHz"
+        },
+        {
+          "field": "slew_rate",
+          "predicted": "115",
+          "label": "0.115 V/us"
+        },
+        {
+          "field": "input_offset_voltage",
+          "predicted": "\u00b15",
+          "label": "4 mV"
+        },
+        {
+          "field": "package_case",
+          "predicted": "8 UCSP",
+          "label": "UCSP-9"
+        },
+        {
+          "field": "num_channels",
+          "predicted": "4",
+          "label": "2 Channel"
+        }
+      ]
+    },
+    {
+      "part_number": "LM358WST",
+      "accuracy": 0.75,
+      "correct": 6,
+      "graded": 8,
+      "seconds": 4.53,
+      "error": "",
+      "values": {
+        "supply_voltage_max": "30",
+        "gain_bandwidth_product": "1.1",
+        "slew_rate": "0.6",
+        "input_offset_voltage": "2",
+        "operating_temp_min": "0",
+        "operating_temp_max": "70",
+        "package_case": "TSSOP8",
+        "num_channels": "2",
+        "mounting_style": "SMD/SMT"
+      },
+      "evidence": {
+        "supply_voltage_max": "Table 3. VCC + = +30 V",
+        "gain_bandwidth_product": "Table 3. VCC + = +30 V, GBW = 1.1 MHz",
+        "slew_rate": "Table 3. VCC + = +30 V, SR = 0.6 V/\u00b5s",
+        "input_offset_voltage": "Table 3. VCC + = +30 V, Vos = 2 mV",
+        "operating_temp_min": "Table 3. VCC + = +30 V, Tmin \u2264 Tamb \u2264 Tmax",
+        "operating_temp_max": "Table 3. VCC + = +30 V, Tmax = 70\u00b0C",
+        "package_case": "Table 6. TSSOP8 package mechanical data",
+        "num_channels": "Table 3. VCC + = +30 V, AV = 25",
+        "mounting_style": "Table 5. MiniSO8 package mechanical data"
+      },
+      "usage": {
+        "input_tokens": 9235,
+        "output_tokens": 379,
+        "calls": 1,
+        "seconds": 4.467,
+        "cost_usd": 0.0
+      },
+      "tool_calls": 0,
+      "steps": 1,
+      "pre_retry_values": {},
+      "verification": {
+        "checked": 0,
+        "rejected": [],
+        "usage": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "calls": 0,
+          "seconds": 0.0,
+          "cost_usd": null
+        }
+      },
+      "retried_fields": [],
+      "repaired_fields": [],
+      "wrong_fields": [
+        {
+          "field": "input_offset_voltage",
+          "predicted": "2",
+          "label": "7 mV"
+        },
+        {
+          "field": "package_case",
+          "predicted": "TSSOP8",
+          "label": "Mini-SO-8"
+        }
+      ]
+    },
+    {
+      "part_number": "LT1351CN8#PBF",
+      "accuracy": 0.4444,
+      "correct": 4,
+      "graded": 9,
+      "seconds": 3.37,
+      "error": "",
+      "values": {
+        "supply_voltage_max": "36",
+        "gain_bandwidth_product": "2.0",
+        "slew_rate": "120",
+        "input_offset_voltage": "1.0",
+        "operating_temp_min": "-40",
+        "operating_temp_max": "85",
+        "package_case": "8-lead plastic msop",
+        "num_channels": "1",
+        "mounting_style": "SMD/SMT"
+      },
+      "evidence": {
+        "supply_voltage_max": "ABSOLUTE MAXIMUM RATINGS",
+        "gain_bandwidth_product": "ABSOLUTE MAXIMUM RATINGS",
+        "slew_rate": "ABSOLUTE MAXIMUM RATINGS",
+        "input_offset_voltage": "ABSOLUTE MAXIMUM RATINGS",
+        "operating_temp_min": "OPERATIONAL AMPLIFIER",
+        "operating_temp_max": "OPERATIONAL AMPLIFIER",
+        "package_case": "TOP VIEW",
+        "num_channels": "PACKAGE/ORDER INFORMATION",
+        "mounting_style": "PACKAGE/ORDER INFORMATION"
+      },
+      "usage": {
+        "input_tokens": 13166,
+        "output_tokens": 276,
+        "calls": 1,
+        "seconds": 3.341,
+        "cost_usd": 0.0
+      },
+      "tool_calls": 0,
+      "steps": 1,
+      "pre_retry_values": {},
+      "verification": {
+        "checked": 0,
+        "rejected": [],
+        "usage": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "calls": 0,
+          "seconds": 0.0,
+          "cost_usd": null
+        }
+      },
+      "retried_fields": [],
+      "repaired_fields": [],
+      "wrong_fields": [
+        {
+          "field": "gain_bandwidth_product",
+          "predicted": "2.0",
+          "label": "3 MHz"
+        },
+        {
+          "field": "slew_rate",
+          "predicted": "120",
+          "label": "200 V/us"
+        },
+        {
+          "field": "input_offset_voltage",
+          "predicted": "1.0",
+          "label": "0.2 mV"
+        },
+        {
+          "field": "package_case",
+          "predicted": "8-lead plastic msop",
+          "label": "PDIP-8"
+        },
+        {
+          "field": "mounting_style",
+          "predicted": "SMD/SMT",
+          "label": "Through Hole"
+        }
+      ]
+    },
+    {
+      "part_number": "TLV2442AIDR",
+      "accuracy": 0.3333,
+      "correct": 3,
+      "graded": 9,
+      "seconds": 8.31,
+      "error": "",
+      "values": {
+        "supply_voltage_max": "36",
+        "gain_bandwidth_product": "1375",
+        "slew_rate": "0.65",
+        "input_offset_voltage": "950",
+        "operating_temp_min": "-40",
+        "operating_temp_max": "125",
+        "package_case": "TSSOP",
+        "num_channels": "4",
+        "mounting_style": "SMD/SMT"
+      },
+      "evidence": {
+        "supply_voltage_max": "Supply voltage, VDD\n25\u00b0C\n300",
+        "gain_bandwidth_product": "Gain-bandwidth product\nf = 1 MHz,\nAV = 10\n25\u00b0C\n1050",
+        "slew_rate": "Slew rate at unity gain\nf = 10 Hz\n25\u00b0C\n0.65",
+        "input_offset_voltage": "Input offset voltage\n25\u00b0C\n300\n950",
+        "operating_temp_min": "Operating free-air temperature range, TA: C suffix\n0\u00b0C to 70\u00b0C\n25\u00b0C\n\u201340",
+        "operating_temp_max": "Operating free-air temperature range, TA: C suffix\n0\u00b0C to 70\u00b0C\n25\u00b0C\n125",
+        "package_case": "Package Drawing\nPackage Drawing\nPins\nSPQ\nLength (mm)\nWidth (mm)\nHeight (mm)\nTLV2442AIDR\nTSSOP\nPW\n8\n2000\n330.0\n12.4\n7.0\n3.6\n1.6\n8.0\n12.0\nQ1",
+        "num_channels": "Package Drawing\nPackage Drawing\nPins\nSPQ\nLength (mm)\nWidth (mm)\nHeight (mm)\nTLV2442AIDR\nTSSOP\nPW\n8\n2000\n330.0\n12.4\n7.0\n3.6\n1.6\n8.0\n12.0\nQ1",
+        "mounting_style": "Package Drawing\nPackage Drawing\nPins\nSPQ\nLength (mm)\nWidth (mm)\nHeight (mm)\nTLV2442AIDR\nTSSOP\nPW\n8\n2000\n330.0\n12.4\n7.0\n3.6\n1.6\n8.0\n12.0\nQ1"
+      },
+      "usage": {
+        "input_tokens": 29806,
+        "output_tokens": 612,
+        "calls": 1,
+        "seconds": 8.198,
+        "cost_usd": 0.0
+      },
+      "tool_calls": 0,
+      "steps": 1,
+      "pre_retry_values": {},
+      "verification": {
+        "checked": 0,
+        "rejected": [],
+        "usage": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "calls": 0,
+          "seconds": 0.0,
+          "cost_usd": null
+        }
+      },
+      "retried_fields": [],
+      "repaired_fields": [],
+      "wrong_fields": [
+        {
+          "field": "supply_voltage_max",
+          "predicted": "36",
+          "label": "10 V"
+        },
+        {
+          "field": "gain_bandwidth_product",
+          "predicted": "1375",
+          "label": "1.81 MHz"
+        },
+        {
+          "field": "slew_rate",
+          "predicted": "0.65",
+          "label": "1.4 V/us"
+        },
+        {
+          "field": "input_offset_voltage",
+          "predicted": "950",
+          "label": "0.95 mV"
+        },
+        {
+          "field": "package_case",
+          "predicted": "TSSOP",
+          "label": "SOIC-8"
+        },
+        {
+          "field": "num_channels",
+          "predicted": "4",
+          "label": "2 Channel"
+        }
+      ]
+    },
+    {
+      "part_number": "LM258AWDT",
+      "accuracy": 0.7778,
+      "correct": 7,
+      "graded": 9,
+      "seconds": 4.7,
+      "error": "",
+      "values": {
+        "supply_voltage_max": "30",
+        "gain_bandwidth_product": "1.1",
+        "slew_rate": "0.6",
+        "input_offset_voltage": "2",
+        "operating_temp_min": "-40",
+        "operating_temp_max": "105",
+        "package_case": "TSSOP8",
+        "num_channels": "2",
+        "mounting_style": "SMD/SMT"
+      },
+      "evidence": {
+        "supply_voltage_max": "Table 3. VCC + = +30 V",
+        "gain_bandwidth_product": "Table 3. VCC + = +30 V, GBW = 1.1 MHz",
+        "slew_rate": "Table 3. VCC + = +30 V, SR = 0.6 V/\u00b5s",
+        "input_offset_voltage": "Table 3. VCC + = +30 V, Vos = 2 mV",
+        "operating_temp_min": "Table 3. VCC + = +30 V, Toper = -40 to +105 \u00b0C",
+        "operating_temp_max": "Table 3. VCC + = +30 V, Toper = -40 to +105 \u00b0C",
+        "package_case": "Table 7. Order codes, TSSOP8",
+        "num_channels": "Table 7. Order codes, TSSOP8",
+        "mounting_style": "Table 7. Order codes, TSSOP8"
+      },
+      "usage": {
+        "input_tokens": 9235,
+        "output_tokens": 390,
+        "calls": 1,
+        "seconds": 4.646,
+        "cost_usd": 0.0
+      },
+      "tool_calls": 0,
+      "steps": 1,
+      "pre_retry_values": {},
+      "verification": {
+        "checked": 0,
+        "rejected": [],
+        "usage": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "calls": 0,
+          "seconds": 0.0,
+          "cost_usd": null
+        }
+      },
+      "retried_fields": [],
+      "repaired_fields": [],
+      "wrong_fields": [
+        {
+          "field": "input_offset_voltage",
+          "predicted": "2",
+          "label": "3 mV"
+        },
+        {
+          "field": "package_case",
+          "predicted": "TSSOP8",
+          "label": "SO-8"
+        }
+      ]
+    },
+    {
+      "part_number": "NCS20082DMR2G",
+      "accuracy": 0.5556,
+      "correct": 5,
+      "graded": 9,
+      "seconds": 4.29,
+      "error": "",
+      "values": {
+        "supply_voltage_max": "36",
+        "gain_bandwidth_product": "1.2",
+        "slew_rate": "0.4",
+        "input_offset_voltage": "3.5",
+        "operating_temp_min": "-40",
+        "operating_temp_max": "125",
+        "package_case": "TSSOP\u221214",
+        "num_channels": "4",
+        "mounting_style": "SMD/SMT"
+      },
+      "evidence": {
+        "supply_voltage_max": "Supply Voltage (VDD \u2013 VSS)",
+        "gain_bandwidth_product": "Gain\u2212Bandwidth Product (GBWP)",
+        "slew_rate": "Slew Rate at Unity Gain",
+        "input_offset_voltage": "Input Offset Voltage",
+        "operating_temp_min": "Operating Temperature Range",
+        "operating_temp_max": "Operating Temperature Range",
+        "package_case": "Package Case",
+        "num_channels": "Number of Channels",
+        "mounting_style": "Mounting Style"
+      },
+      "usage": {
+        "input_tokens": 15173,
+        "output_tokens": 272,
+        "calls": 1,
+        "seconds": 4.204,
+        "cost_usd": 0.0
+      },
+      "tool_calls": 0,
+      "steps": 1,
+      "pre_retry_values": {},
+      "verification": {
+        "checked": 0,
+        "rejected": [],
+        "usage": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "calls": 0,
+          "seconds": 0.0,
+          "cost_usd": null
+        }
+      },
+      "retried_fields": [],
+      "repaired_fields": [],
+      "wrong_fields": [
+        {
+          "field": "supply_voltage_max",
+          "predicted": "36",
+          "label": "5.5 V"
+        },
+        {
+          "field": "input_offset_voltage",
+          "predicted": "3.5",
+          "label": "0.5 mV"
+        },
+        {
+          "field": "package_case",
+          "predicted": "TSSOP-14",
+          "label": "MSOP-8"
+        },
+        {
+          "field": "num_channels",
+          "predicted": "4",
+          "label": "2 Channel"
+        }
+      ]
+    },
+    {
+      "part_number": "AD8244BRMZ",
+      "accuracy": 0.875,
+      "correct": 7,
+      "graded": 8,
+      "seconds": 3.71,
+      "error": "",
+      "values": {
+        "supply_voltage_max": "36",
+        "gain_bandwidth_product": "3",
+        "slew_rate": "0.8",
+        "input_offset_voltage": "100",
+        "operating_temp_min": "-40",
+        "operating_temp_max": "+85",
+        "package_case": "10-Lead Mini Small Outline Package [MSOP]",
+        "num_channels": "4",
+        "mounting_style": "SMD/SMT"
+      },
+      "evidence": {
+        "supply_voltage_max": "Table 1",
+        "gain_bandwidth_product": "Table 1",
+        "slew_rate": "Table 1",
+        "input_offset_voltage": "Table 1",
+        "operating_temp_min": "Table 1",
+        "operating_temp_max": "Table 1",
+        "package_case": "Table 1",
+        "num_channels": "Table 1",
+        "mounting_style": "Table 1"
+      },
+      "usage": {
+        "input_tokens": 15089,
+        "output_tokens": 262,
+        "calls": 1,
+        "seconds": 3.575,
+        "cost_usd": 0.0
+      },
+      "tool_calls": 0,
+      "steps": 1,
+      "pre_retry_values": {},
+      "verification": {
+        "checked": 0,
+        "rejected": [],
+        "usage": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "calls": 0,
+          "seconds": 0.0,
+          "cost_usd": null
+        }
+      },
+      "retried_fields": [],
+      "repaired_fields": [],
+      "wrong_fields": [
+        {
+          "field": "input_offset_voltage",
+          "predicted": "100",
+          "label": "100 uV"
+        }
+      ]
+    },
+    {
+      "part_number": "OPA172ID",
+      "accuracy": 0.7778,
+      "correct": 7,
+      "graded": 9,
+      "seconds": 5.39,
+      "error": "",
+      "values": {
+        "supply_voltage_max": "36",
+        "gain_bandwidth_product": "10",
+        "slew_rate": "4",
+        "input_offset_voltage": "1.15",
+        "operating_temp_min": "-40",
+        "operating_temp_max": "+125",
+        "package_case": "SOIC-8",
+        "num_channels": "1",
+        "mounting_style": "SMD/SMT"
+      },
+      "evidence": {
+        "supply_voltage_max": "Supply voltage, VS: \u00b12.25 (+40, single supply)",
+        "gain_bandwidth_product": "Gain bandwidth product (GBP): 10 MHz",
+        "slew_rate": "Slew rate: 4 V/\u00b5s",
+        "input_offset_voltage": "Input offset voltage: \u00b11.15 mV",
+        "operating_temp_min": "Recommended Operating Conditions: Specified temperature: \u201340\u00b0C to +125\u00b0C",
+        "operating_temp_max": "Recommended Operating Conditions: Specified temperature: \u201340\u00b0C to +125\u00b0C",
+        "package_case": "Package Body Size (NOM): SOIC-8, VSSOP-8, SOIC-14, TSSOP-14",
+        "num_channels": "Number of channels: 1",
+        "mounting_style": "Pin Configuration and Functions: Pin Functions: OPA172"
+      },
+      "usage": {
+        "input_tokens": 21472,
+        "output_tokens": 361,
+        "calls": 1,
+        "seconds": 5.081,
+        "cost_usd": 0.0
+      },
+      "tool_calls": 0,
+      "steps": 1,
+      "pre_retry_values": {},
+      "verification": {
+        "checked": 0,
+        "rejected": [],
+        "usage": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "calls": 0,
+          "seconds": 0.0,
+          "cost_usd": null
+        }
+      },
+      "retried_fields": [],
+      "repaired_fields": [],
+      "wrong_fields": [
+        {
+          "field": "slew_rate",
+          "predicted": "4",
+          "label": "10 V/us"
+        },
+        {
+          "field": "input_offset_voltage",
+          "predicted": "1.15",
+          "label": "1 mV"
+        }
+      ]
+    },
+    {
+      "part_number": "OPA172IDR",
+      "accuracy": 0.6667,
+      "correct": 6,
+      "graded": 9,
+      "seconds": 5.16,
+      "error": "",
+      "values": {
+        "supply_voltage_max": "36",
+        "gain_bandwidth_product": "4",
+        "slew_rate": "4",
+        "input_offset_voltage": "1.15",
+        "operating_temp_min": "-40",
+        "operating_temp_max": "+125",
+        "package_case": "SOIC-8",
+        "num_channels": "1",
+        "mounting_style": "SMD/SMT"
+      },
+      "evidence": {
+        "supply_voltage_max": "Supply voltage, VS: \u00b12.25 (+40, single supply)",
+        "gain_bandwidth_product": "Gain bandwidth product (GBP): 4 MHz",
+        "slew_rate": "Slew rate: 4 V/\u00b5s",
+        "input_offset_voltage": "Input offset voltage: \u00b11.15 mV",
+        "operating_temp_min": "Recommended Operating Conditions: Specified temperature: \u201340\u00b0C to +125\u00b0C",
+        "operating_temp_max": "Recommended Operating Conditions: Specified temperature: \u201340\u00b0C to +125\u00b0C",
+        "package_case": "Package Body Size (NOM): SOIC-8, VSSOP-8, SOIC-8",
+        "num_channels": "Number of channels: 1",
+        "mounting_style": "Pin Configuration and Functions: DCK Package: OPA172"
+      },
+      "usage": {
+        "input_tokens": 21474,
+        "output_tokens": 352,
+        "calls": 1,
+        "seconds": 4.826,
+        "cost_usd": 0.0
+      },
+      "tool_calls": 0,
+      "steps": 1,
+      "pre_retry_values": {},
+      "verification": {
+        "checked": 0,
+        "rejected": [],
+        "usage": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "calls": 0,
+          "seconds": 0.0,
+          "cost_usd": null
+        }
+      },
+      "retried_fields": [],
+      "repaired_fields": [],
+      "wrong_fields": [
+        {
+          "field": "gain_bandwidth_product",
+          "predicted": "4",
+          "label": "10 MHz"
+        },
+        {
+          "field": "slew_rate",
+          "predicted": "4",
+          "label": "10 V/us"
+        },
+        {
+          "field": "input_offset_voltage",
+          "predicted": "1.15",
+          "label": "1 mV"
+        }
+      ]
+    },
+    {
+      "part_number": "TLV2314QDRQ1",
+      "accuracy": 0.8889,
+      "correct": 8,
+      "graded": 9,
+      "seconds": 2.83,
+      "error": "",
+      "values": {
+        "supply_voltage_max": "5.5",
+        "gain_bandwidth_product": "3",
+        "slew_rate": "1.5",
+        "input_offset_voltage": "0.75",
+        "operating_temp_min": "-40",
+        "operating_temp_max": "125",
+        "package_case": "VSSOP",
+        "num_channels": "2",
+        "mounting_style": "SMD/SMT"
+      },
+      "evidence": {
+        "supply_voltage_max": "Table of Specifications",
+        "gain_bandwidth_product": "Table of Specifications",
+        "slew_rate": "Table of Specifications",
+        "input_offset_voltage": "Table of Specifications",
+        "operating_temp_min": "Table of Specifications",
+        "operating_temp_max": "Table of Specifications",
+        "package_case": "Table of Specifications",
+        "num_channels": "Table of Specifications",
+        "mounting_style": "Table of Specifications"
+      },
+      "usage": {
+        "input_tokens": 17184,
+        "output_tokens": 257,
+        "calls": 1,
+        "seconds": 2.709,
+        "cost_usd": 0.0
+      },
+      "tool_calls": 0,
+      "steps": 1,
+      "pre_retry_values": {},
+      "verification": {
+        "checked": 0,
+        "rejected": [],
+        "usage": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "calls": 0,
+          "seconds": 0.0,
+          "cost_usd": null
+        }
+      },
+      "retried_fields": [],
+      "repaired_fields": [],
+      "wrong_fields": [
+        {
+          "field": "package_case",
+          "predicted": "VSSOP",
+          "label": "SOIC-8"
+        }
+      ]
+    },
+    {
+      "part_number": "TLV2252AQDRQ1",
+      "accuracy": 0.0,
+      "correct": 0,
+      "graded": 9,
+      "seconds": 5.62,
+      "error": "unparseable response",
+      "values": {},
+      "evidence": {},
+      "usage": {
+        "input_tokens": 32487,
+        "output_tokens": 281,
+        "calls": 1,
+        "seconds": 5.464,
+        "cost_usd": 0.0
+      },
+      "tool_calls": 0,
+      "steps": 1,
+      "pre_retry_values": {},
+      "verification": {
+        "checked": 0,
+        "rejected": [],
+        "usage": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "calls": 0,
+          "seconds": 0.0,
+          "cost_usd": null
+        }
+      },
+      "retried_fields": [],
+      "repaired_fields": [],
+      "wrong_fields": [
+        {
+          "field": "supply_voltage_max",
+          "predicted": "",
+          "label": "16 V"
+        },
+        {
+          "field": "gain_bandwidth_product",
+          "predicted": "",
+          "label": "200 kHz"
+        },
+        {
+          "field": "slew_rate",
+          "predicted": "",
+          "label": "0.12 V/us"
+        },
+        {
+          "field": "input_offset_voltage",
+          "predicted": "",
+          "label": "0.85 mV"
+        },
+        {
+          "field": "operating_temp_min",
+          "predicted": "",
+          "label": "- 40 C"
+        },
+        {
+          "field": "operating_temp_max",
+          "predicted": "",
+          "label": "+ 125 C"
+        },
+        {
+          "field": "package_case",
+          "predicted": "",
+          "label": "SOIC-8"
+        },
+        {
+          "field": "num_channels",
+          "predicted": "",
+          "label": "2 Channel"
+        },
+        {
+          "field": "mounting_style",
+          "predicted": "",
+          "label": "SMD/SMT"
+        }
+      ]
+    },
+    {
+      "part_number": "TLV2252AQDRG4Q1",
+      "accuracy": 0.0,
+      "correct": 0,
+      "graded": 9,
+      "seconds": 6.36,
+      "error": "unparseable response",
+      "values": {},
+      "evidence": {},
+      "usage": {
+        "input_tokens": 32491,
+        "output_tokens": 277,
+        "calls": 1,
+        "seconds": 6.214,
+        "cost_usd": 0.0
+      },
+      "tool_calls": 0,
+      "steps": 1,
+      "pre_retry_values": {},
+      "verification": {
+        "checked": 0,
+        "rejected": [],
+        "usage": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "calls": 0,
+          "seconds": 0.0,
+          "cost_usd": null
+        }
+      },
+      "retried_fields": [],
+      "repaired_fields": [],
+      "wrong_fields": [
+        {
+          "field": "supply_voltage_max",
+          "predicted": "",
+          "label": "16 V"
+        },
+        {
+          "field": "gain_bandwidth_product",
+          "predicted": "",
+          "label": "200 kHz"
+        },
+        {
+          "field": "slew_rate",
+          "predicted": "",
+          "label": "0.12 V/us"
+        },
+        {
+          "field": "input_offset_voltage",
+          "predicted": "",
+          "label": "0.85 mV"
+        },
+        {
+          "field": "operating_temp_min",
+          "predicted": "",
+          "label": "- 40 C"
+        },
+        {
+          "field": "operating_temp_max",
+          "predicted": "",
+          "label": "+ 125 C"
+        },
+        {
+          "field": "package_case",
+          "predicted": "",
+          "label": "SOIC-8"
+        },
+        {
+          "field": "num_channels",
+          "predicted": "",
+          "label": "2 Channel"
+        },
+        {
+          "field": "mounting_style",
+          "predicted": "",
+          "label": "SMD/SMT"
+        }
+      ]
+    },
+    {
+      "part_number": "AD842KNZ",
+      "accuracy": 0.75,
+      "correct": 6,
+      "graded": 8,
+      "seconds": 2.32,
+      "error": "",
+      "values": {
+        "supply_voltage_max": "",
+        "gain_bandwidth_product": "80 MHz",
+        "slew_rate": "375 V/\u00b5s",
+        "input_offset_voltage": "1.5 mV",
+        "operating_temp_min": "-55\u00b0C",
+        "operating_temp_max": "+125\u00b0C",
+        "package_case": "14-Lead PDIP",
+        "num_channels": "1",
+        "mounting_style": "SMD/SMT"
+      },
+      "evidence": {
+        "supply_voltage_max": "Not applicable",
+        "gain_bandwidth_product": "Table 1",
+        "slew_rate": "Table 1",
+        "input_offset_voltage": "Table 1",
+        "operating_temp_min": "Table 3",
+        "operating_temp_max": "Table 3",
+        "package_case": "Table 1",
+        "num_channels": "Table 1",
+        "mounting_style": "Table 1"
+      },
+      "usage": {
+        "input_tokens": 10981,
+        "output_tokens": 266,
+        "calls": 1,
+        "seconds": 2.278,
+        "cost_usd": 0.0
+      },
+      "tool_calls": 0,
+      "steps": 1,
+      "pre_retry_values": {},
+      "verification": {
+        "checked": 0,
+        "rejected": [],
+        "usage": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "calls": 0,
+          "seconds": 0.0,
+          "cost_usd": null
+        }
+      },
+      "retried_fields": [],
+      "repaired_fields": [],
+      "wrong_fields": [
+        {
+          "field": "input_offset_voltage",
+          "predicted": "1.5 mV",
+          "label": "500 uV"
+        },
+        {
+          "field": "mounting_style",
+          "predicted": "SMD/SMT",
+          "label": "Through Hole"
+        }
+      ]
+    },
+    {
+      "part_number": "MC1458P",
+      "accuracy": 0.0,
+      "correct": 0,
+      "graded": 9,
+      "seconds": 9.98,
+      "error": "unparseable response",
+      "values": {},
+      "evidence": {},
+      "usage": {
+        "input_tokens": 8900,
+        "output_tokens": 2048,
+        "calls": 1,
+        "seconds": 9.929,
+        "cost_usd": 0.0
+      },
+      "tool_calls": 0,
+      "steps": 1,
+      "pre_retry_values": {},
+      "verification": {
+        "checked": 0,
+        "rejected": [],
+        "usage": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "calls": 0,
+          "seconds": 0.0,
+          "cost_usd": null
+        }
+      },
+      "retried_fields": [],
+      "repaired_fields": [],
+      "wrong_fields": [
+        {
+          "field": "supply_voltage_max",
+          "predicted": "",
+          "label": "30 V"
+        },
+        {
+          "field": "gain_bandwidth_product",
+          "predicted": "",
+          "label": "1 MHz"
+        },
+        {
+          "field": "slew_rate",
+          "predicted": "",
+          "label": "0.5 V/us"
+        },
+        {
+          "field": "input_offset_voltage",
+          "predicted": "",
+          "label": "6 mV"
+        },
+        {
+          "field": "operating_temp_min",
+          "predicted": "",
+          "label": "0 C"
+        },
+        {
+          "field": "operating_temp_max",
+          "predicted": "",
+          "label": "+ 70 C"
+        },
+        {
+          "field": "package_case",
+          "predicted": "",
+          "label": "PDIP-8"
+        },
+        {
+          "field": "num_channels",
+          "predicted": "",
+          "label": "2 Channel"
+        },
+        {
+          "field": "mounting_style",
+          "predicted": "",
+          "label": "Through Hole"
+        }
+      ]
+    },
+    {
+      "part_number": "MC1458DR",
+      "accuracy": 0.0,
+      "correct": 0,
+      "graded": 9,
+      "seconds": 9.77,
+      "error": "unparseable response",
+      "values": {},
+      "evidence": {},
+      "usage": {
+        "input_tokens": 8900,
+        "output_tokens": 2048,
+        "calls": 1,
+        "seconds": 9.699,
+        "cost_usd": 0.0
+      },
+      "tool_calls": 0,
+      "steps": 1,
+      "pre_retry_values": {},
+      "verification": {
+        "checked": 0,
+        "rejected": [],
+        "usage": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "calls": 0,
+          "seconds": 0.0,
+          "cost_usd": null
+        }
+      },
+      "retried_fields": [],
+      "repaired_fields": [],
+      "wrong_fields": [
+        {
+          "field": "supply_voltage_max",
+          "predicted": "",
+          "label": "30 V"
+        },
+        {
+          "field": "gain_bandwidth_product",
+          "predicted": "",
+          "label": "1 MHz"
+        },
+        {
+          "field": "slew_rate",
+          "predicted": "",
+          "label": "0.5 V/us"
+        },
+        {
+          "field": "input_offset_voltage",
+          "predicted": "",
+          "label": "6 mV"
+        },
+        {
+          "field": "operating_temp_min",
+          "predicted": "",
+          "label": "0 C"
+        },
+        {
+          "field": "operating_temp_max",
+          "predicted": "",
+          "label": "+ 70 C"
+        },
+        {
+          "field": "package_case",
+          "predicted": "",
+          "label": "SOIC-8"
+        },
+        {
+          "field": "num_channels",
+          "predicted": "",
+          "label": "2 Channel"
+        },
+        {
+          "field": "mounting_style",
+          "predicted": "",
+          "label": "SMD/SMT"
+        }
+      ]
+    },
+    {
+      "part_number": "LMX321ICT",
+      "accuracy": 0.5556,
+      "correct": 5,
+      "graded": 9,
+      "seconds": 3.1,
+      "error": "",
+      "values": {
+        "supply_voltage_max": "7",
+        "gain_bandwidth_product": "1.3",
+        "slew_rate": "1",
+        "input_offset_voltage": "180",
+        "operating_temp_min": "-40",
+        "operating_temp_max": "+125",
+        "package_case": "SO",
+        "num_channels": "1",
+        "mounting_style": "SMD/SMT"
+      },
+      "evidence": {
+        "supply_voltage_max": "Supply Voltage (VCC = +2.7V, VEE = 0V, VOUT = VCC/2, VCM = 1V, RL > 1M\u03a9, TA = +25\u00b0C, unless otherwise noted.).",
+        "gain_bandwidth_product": "Gain-Bandwidth Product (GBW), CL = 200pF, 1.3 MHz.",
+        "slew_rate": "Slew Rate (SR), 1 V/\u00b5s.",
+        "input_offset_voltage": "Input Offset Voltage (VOS), 180 mV.",
+        "operating_temp_min": "Operating Temperature Range (-40\u00b0C to +125\u00b0C)",
+        "operating_temp_max": "Operating Temperature Range (-40\u00b0C to +125\u00b0C)",
+        "package_case": "Package Outline, SO body.",
+        "num_channels": "Single/Dual/Quad, General-Purpose, Low-Voltage, Rail-to-Rail Output Op Amps",
+        "mounting_style": "Pin Configuration, Selector Guide"
+      },
+      "usage": {
+        "input_tokens": 11175,
+        "output_tokens": 383,
+        "calls": 1,
+        "seconds": 3.057,
+        "cost_usd": 0.0
+      },
+      "tool_calls": 0,
+      "steps": 1,
+      "pre_retry_values": {},
+      "verification": {
+        "checked": 0,
+        "rejected": [],
+        "usage": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "calls": 0,
+          "seconds": 0.0,
+          "cost_usd": null
+        }
+      },
+      "retried_fields": [],
+      "repaired_fields": [],
+      "wrong_fields": [
+        {
+          "field": "supply_voltage_max",
+          "predicted": "7",
+          "label": "5.5 V"
+        },
+        {
+          "field": "slew_rate",
+          "predicted": "1",
+          "label": "0.7 V/us"
+        },
+        {
+          "field": "input_offset_voltage",
+          "predicted": "180",
+          "label": "6 mV"
+        },
+        {
+          "field": "package_case",
+          "predicted": "SO",
+          "label": "SC-70-5"
+        }
+      ]
+    },
+    {
+      "part_number": "LMC660AIM/NOPB",
+      "accuracy": 0.7778,
+      "correct": 7,
+      "graded": 9,
+      "seconds": 2.65,
+      "error": "",
+      "values": {
+        "supply_voltage_max": "15.5",
+        "gain_bandwidth_product": "1.4",
+        "slew_rate": "1.1",
+        "input_offset_voltage": "6.3",
+        "operating_temp_min": "-40",
+        "operating_temp_max": "+85",
+        "package_case": "SOIC",
+        "num_channels": "4",
+        "mounting_style": "SMD/SMT"
+      },
+      "evidence": {
+        "supply_voltage_max": "Supply Voltage",
+        "gain_bandwidth_product": "Gain-Bandwidth Product",
+        "slew_rate": "Slew Rate",
+        "input_offset_voltage": "Input Offset Voltage",
+        "operating_temp_min": "Operating Range from +5V to +15.5V Supply",
+        "operating_temp_max": "Operating Range from +5V to +15.5V Supply",
+        "package_case": "Package Option Addendum",
+        "num_channels": "Application Information",
+        "mounting_style": "Package Option Addendum"
+      },
+      "usage": {
+        "input_tokens": 10919,
+        "output_tokens": 281,
+        "calls": 1,
+        "seconds": 2.606,
+        "cost_usd": 0.0
+      },
+      "tool_calls": 0,
+      "steps": 1,
+      "pre_retry_values": {},
+      "verification": {
+        "checked": 0,
+        "rejected": [],
+        "usage": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "calls": 0,
+          "seconds": 0.0,
+          "cost_usd": null
+        }
+      },
+      "retried_fields": [],
+      "repaired_fields": [],
+      "wrong_fields": [
+        {
+          "field": "input_offset_voltage",
+          "predicted": "6.3",
+          "label": "3 mV"
+        },
+        {
+          "field": "package_case",
+          "predicted": "SOIC",
+          "label": "SOIC-14"
+        }
+      ]
+    },
+    {
+      "part_number": "LMC660CM/NOPB",
+      "accuracy": 0.7778,
+      "correct": 7,
+      "graded": 9,
+      "seconds": 2.73,
+      "error": "",
+      "values": {
+        "supply_voltage_max": "15.5",
+        "gain_bandwidth_product": "1.4",
+        "slew_rate": "1.1",
+        "input_offset_voltage": "6.3",
+        "operating_temp_min": "-40",
+        "operating_temp_max": "+85",
+        "package_case": "SOIC",
+        "num_channels": "4",
+        "mounting_style": "SMD/SMT"
+      },
+      "evidence": {
+        "supply_voltage_max": "Supply Voltage",
+        "gain_bandwidth_product": "Gain-Bandwidth Product",
+        "slew_rate": "Slew Rate",
+        "input_offset_voltage": "Input Offset Voltage",
+        "operating_temp_min": "Operating Range from +5V to +15.5V Supply",
+        "operating_temp_max": "Operating Range from +5V to +15.5V Supply",
+        "package_case": "Package Option Addendum",
+        "num_channels": "Application Information",
+        "mounting_style": "Package Option Addendum"
+      },
+      "usage": {
+        "input_tokens": 10919,
+        "output_tokens": 281,
+        "calls": 1,
+        "seconds": 2.685,
+        "cost_usd": 0.0
+      },
+      "tool_calls": 0,
+      "steps": 1,
+      "pre_retry_values": {},
+      "verification": {
+        "checked": 0,
+        "rejected": [],
+        "usage": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "calls": 0,
+          "seconds": 0.0,
+          "cost_usd": null
+        }
+      },
+      "retried_fields": [],
+      "repaired_fields": [],
+      "wrong_fields": [
+        {
+          "field": "input_offset_voltage",
+          "predicted": "6.3",
+          "label": "3 mV"
+        },
+        {
+          "field": "package_case",
+          "predicted": "SOIC",
+          "label": "SOIC-14"
+        }
+      ]
+    },
+    {
+      "part_number": "LF353M/NOPB",
+      "accuracy": 0.6667,
+      "correct": 6,
+      "graded": 9,
+      "seconds": 2.6,
+      "error": "",
+      "values": {
+        "supply_voltage_max": "18",
+        "gain_bandwidth_product": "3",
+        "slew_rate": "13",
+        "input_offset_voltage": "13",
+        "operating_temp_min": "0",
+        "operating_temp_max": "70",
+        "package_case": "SOIC (8)",
+        "num_channels": "2",
+        "mounting_style": "SMD/SMT"
+      },
+      "evidence": {
+        "supply_voltage_max": "Table of Contents",
+        "gain_bandwidth_product": "Table of Contents",
+        "slew_rate": "Table of Contents",
+        "input_offset_voltage": "Table of Contents",
+        "operating_temp_min": "Table of Contents",
+        "operating_temp_max": "Table of Contents",
+        "package_case": "Table of Contents",
+        "num_channels": "Table of Contents",
+        "mounting_style": "Table of Contents"
+      },
+      "usage": {
+        "input_tokens": 8778,
+        "output_tokens": 252,
+        "calls": 1,
+        "seconds": 2.544,
+        "cost_usd": 0.0
+      },
+      "tool_calls": 0,
+      "steps": 1,
+      "pre_retry_values": {},
+      "verification": {
+        "checked": 0,
+        "rejected": [],
+        "usage": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "calls": 0,
+          "seconds": 0.0,
+          "cost_usd": null
+        }
+      },
+      "retried_fields": [],
+      "repaired_fields": [],
+      "wrong_fields": [
+        {
+          "field": "supply_voltage_max",
+          "predicted": "18",
+          "label": "36 V"
+        },
+        {
+          "field": "gain_bandwidth_product",
+          "predicted": "3",
+          "label": "4 MHz"
+        },
+        {
+          "field": "input_offset_voltage",
+          "predicted": "13",
+          "label": "10 mV"
+        }
+      ]
+    },
+    {
+      "part_number": "MC33078DR2G",
+      "accuracy": 0.625,
+      "correct": 5,
+      "graded": 8,
+      "seconds": 3.21,
+      "error": "",
+      "values": {
+        "supply_voltage_max": "36",
+        "gain_bandwidth_product": "16",
+        "slew_rate": "7.0",
+        "input_offset_voltage": "3.0",
+        "operating_temp_min": "-40",
+        "operating_temp_max": "+85",
+        "package_case": "PDIP\u221214",
+        "num_channels": "4",
+        "mounting_style": "SMD/SMT"
+      },
+      "evidence": {
+        "supply_voltage_max": "Figure 2. Maximum Power Dissipation",
+        "gain_bandwidth_product": "Table 3. DC Electrical Characteristics",
+        "slew_rate": "Table 3. DC Electrical Characteristics",
+        "input_offset_voltage": "Table 3. DC Electrical Characteristics",
+        "operating_temp_min": "Table 3. DC Electrical Characteristics",
+        "operating_temp_max": "Table 3. DC Electrical Characteristics",
+        "package_case": "Figure 1. Representative Schematic Diagram",
+        "num_channels": "Table 1. PIN CONNECTIONS",
+        "mounting_style": "Figure 1. Representative Schematic Diagram"
+      },
+      "usage": {
+        "input_tokens": 12049,
+        "output_tokens": 296,
+        "calls": 1,
+        "seconds": 3.19,
+        "cost_usd": 0.0
+      },
+      "tool_calls": 0,
+      "steps": 1,
+      "pre_retry_values": {},
+      "verification": {
+        "checked": 0,
+        "rejected": [],
+        "usage": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "calls": 0,
+          "seconds": 0.0,
+          "cost_usd": null
+        }
+      },
+      "retried_fields": [],
+      "repaired_fields": [],
+      "wrong_fields": [
+        {
+          "field": "input_offset_voltage",
+          "predicted": "3.0",
+          "label": "2 mV"
+        },
+        {
+          "field": "package_case",
+          "predicted": "PDIP-14",
+          "label": "SOIC-8"
+        },
+        {
+          "field": "num_channels",
+          "predicted": "4",
+          "label": "2 Channel"
+        }
+      ]
+    },
+    {
+      "part_number": "MAX494CSD+",
+      "accuracy": 0.2222,
+      "correct": 2,
+      "graded": 9,
+      "seconds": 4.17,
+      "error": "",
+      "values": {
+        "supply_voltage_max": "6.0",
+        "gain_bandwidth_product": "108",
+        "slew_rate": "0.003",
+        "input_offset_voltage": "\u00b16",
+        "operating_temp_min": "-40",
+        "operating_temp_max": "+125",
+        "package_case": "8 SO",
+        "num_channels": "4",
+        "mounting_style": "Through Hole"
+      },
+      "evidence": {
+        "supply_voltage_max": "Supply Voltage (VCC to VEE)....................................................7V",
+        "gain_bandwidth_product": "Gain Bandwidth Product (GBW)..................................................................................................................108kHz",
+        "slew_rate": "Slew Rate .........................................................................................................................0.003V/us",
+        "input_offset_voltage": "Input Offset Voltage ..................................................................................................................\u00b16mV",
+        "operating_temp_min": "Operating Temperature Ranges .............................................................-40\u00b0C to +85\u00b0C",
+        "operating_temp_max": "Operating Temperature Ranges .............................................................-40\u00b0C to +85\u00b0C",
+        "package_case": "Pin Configurations continued at end of data sheet.",
+        "num_channels": "Pin Configurations continued at end of data sheet.",
+        "mounting_style": "Pin Configurations continued at end of data sheet."
+      },
+      "usage": {
+        "input_tokens": 14154,
+        "output_tokens": 343,
+        "calls": 1,
+        "seconds": 4.139,
+        "cost_usd": 0.0
+      },
+      "tool_calls": 0,
+      "steps": 1,
+      "pre_retry_values": {},
+      "verification": {
+        "checked": 0,
+        "rejected": [],
+        "usage": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "calls": 0,
+          "seconds": 0.0,
+          "cost_usd": null
+        }
+      },
+      "retried_fields": [],
+      "repaired_fields": [],
+      "wrong_fields": [
+        {
+          "field": "gain_bandwidth_product",
+          "predicted": "108",
+          "label": "500 kHz"
+        },
+        {
+          "field": "slew_rate",
+          "predicted": "0.003",
+          "label": "0.2 V/us"
+        },
+        {
+          "field": "input_offset_voltage",
+          "predicted": "\u00b16",
+          "label": "500 uV"
+        },
+        {
+          "field": "operating_temp_min",
+          "predicted": "-40",
+          "label": "0 C"
+        },
+        {
+          "field": "operating_temp_max",
+          "predicted": "+125",
+          "label": "+ 70 C"
+        },
+        {
+          "field": "package_case",
+          "predicted": "8 SO",
+          "label": "SOIC-14"
+        },
+        {
+          "field": "mounting_style",
+          "predicted": "Through Hole",
+          "label": "SMD/SMT"
+        }
+      ]
+    },
+    {
+      "part_number": "LMV841MGX/NOPB",
+      "accuracy": 0.7778,
+      "correct": 7,
+      "graded": 9,
+      "seconds": 4.1,
+      "error": "",
+      "values": {
+        "supply_voltage_max": "12",
+        "gain_bandwidth_product": "4.5",
+        "slew_rate": "2.5",
+        "input_offset_voltage": "500",
+        "operating_temp_min": "-40",
+        "operating_temp_max": "125",
+        "package_case": "SOIC (8)",
+        "num_channels": "1",
+        "mounting_style": "SMD/SMT"
+      },
+      "evidence": {
+        "supply_voltage_max": "Supply voltage (V+ \u2013 V\u2212)",
+        "gain_bandwidth_product": "Gain bandwidth product",
+        "slew_rate": "Slew rate (8)",
+        "input_offset_voltage": "Input offset voltage",
+        "operating_temp_min": "Recommended Operating Conditions",
+        "operating_temp_max": "Recommended Operating Conditions",
+        "package_case": "Package Drawing",
+        "num_channels": "Single LMV841 is offered in the space-saving 5-Pin SC70 package",
+        "mounting_style": "Package Drawing"
+      },
+      "usage": {
+        "input_tokens": 22235,
+        "output_tokens": 280,
+        "calls": 1,
+        "seconds": 3.96,
+        "cost_usd": 0.0
+      },
+      "tool_calls": 0,
+      "steps": 1,
+      "pre_retry_values": {},
+      "verification": {
+        "checked": 0,
+        "rejected": [],
+        "usage": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "calls": 0,
+          "seconds": 0.0,
+          "cost_usd": null
+        }
+      },
+      "retried_fields": [],
+      "repaired_fields": [],
+      "wrong_fields": [
+        {
+          "field": "input_offset_voltage",
+          "predicted": "500",
+          "label": "0.5 mV"
+        },
+        {
+          "field": "package_case",
+          "predicted": "SOIC (8)",
+          "label": "SC70-5"
+        }
+      ]
+    },
+    {
+      "part_number": "LT1358IS8#PBF",
+      "accuracy": 0.4444,
+      "correct": 4,
+      "graded": 9,
+      "seconds": 3.85,
+      "error": "",
+      "values": {
+        "supply_voltage_max": "36",
+        "gain_bandwidth_product": "22000000",
+        "slew_rate": "150",
+        "input_offset_voltage": "1.3",
+        "operating_temp_min": "-40",
+        "operating_temp_max": "85",
+        "package_case": "14-LEAD PDIP",
+        "num_channels": "4",
+        "mounting_style": "SMD/SMT"
+      },
+      "evidence": {
+        "supply_voltage_max": "Supply Voltage (\u00b1V)",
+        "gain_bandwidth_product": "Gain Bandwidth Product",
+        "slew_rate": "Slew Rate",
+        "input_offset_voltage": "Input Offset Voltage",
+        "operating_temp_min": "Operating Temperature Range",
+        "operating_temp_max": "Operating Temperature Range",
+        "package_case": "Package/Order I FOR ATIO",
+        "num_channels": "Number of Amplifier Channels",
+        "mounting_style": "Mounting Style"
+      },
+      "usage": {
+        "input_tokens": 14906,
+        "output_tokens": 274,
+        "calls": 1,
+        "seconds": 3.829,
+        "cost_usd": 0.0
+      },
+      "tool_calls": 0,
+      "steps": 1,
+      "pre_retry_values": {},
+      "verification": {
+        "checked": 0,
+        "rejected": [],
+        "usage": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "calls": 0,
+          "seconds": 0.0,
+          "cost_usd": null
+        }
+      },
+      "retried_fields": [],
+      "repaired_fields": [],
+      "wrong_fields": [
+        {
+          "field": "gain_bandwidth_product",
+          "predicted": "22000000",
+          "label": "25 MHz"
+        },
+        {
+          "field": "slew_rate",
+          "predicted": "150",
+          "label": "600 V/us"
+        },
+        {
+          "field": "input_offset_voltage",
+          "predicted": "1.3",
+          "label": "0.2 mV"
+        },
+        {
+          "field": "package_case",
+          "predicted": "14-LEAD PDIP",
+          "label": "SO-8"
+        },
+        {
+          "field": "num_channels",
+          "predicted": "4",
+          "label": "2 Channel"
+        }
+      ]
+    },
+    {
+      "part_number": "TLV6003DBVR",
+      "accuracy": 0.6667,
+      "correct": 6,
+      "graded": 9,
+      "seconds": 3.71,
+      "error": "",
+      "values": {
+        "supply_voltage_max": "16",
+        "gain_bandwidth_product": "5.5",
+        "slew_rate": "2.5",
+        "input_offset_voltage": "550",
+        "operating_temp_min": "-40",
+        "operating_temp_max": "125",
+        "package_case": "5-pin SOT-23",
+        "num_channels": "1",
+        "mounting_style": "SMD/SMT"
+      },
+      "evidence": {
+        "supply_voltage_max": "6.5 Electrical Characteristics \u2013 TLV6003",
+        "gain_bandwidth_product": "6.5 Electrical Characteristics \u2013 TLV6003",
+        "slew_rate": "6.5 Electrical Characteristics \u2013 TLV6003",
+        "input_offset_voltage": "6.5 Electrical Characteristics \u2013 TLV6003",
+        "operating_temp_min": "6.5 Electrical Characteristics \u2013 TLV6003",
+        "operating_temp_max": "6.5 Electrical Characteristics \u2013 TLV6003",
+        "package_case": "6.5 Electrical Characteristics \u2013 TLV6003",
+        "num_channels": "6.5 Electrical Characteristics \u2013 TLV6003",
+        "mounting_style": "6.5 Electrical Characteristics \u2013 TLV6003"
+      },
+      "usage": {
+        "input_tokens": 14420,
+        "output_tokens": 342,
+        "calls": 1,
+        "seconds": 3.595,
+        "cost_usd": 0.0
+      },
+      "tool_calls": 0,
+      "steps": 1,
+      "pre_retry_values": {},
+      "verification": {
+        "checked": 0,
+        "rejected": [],
+        "usage": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "calls": 0,
+          "seconds": 0.0,
+          "cost_usd": null
+        }
+      },
+      "retried_fields": [],
+      "repaired_fields": [],
+      "wrong_fields": [
+        {
+          "field": "gain_bandwidth_product",
+          "predicted": "5.5",
+          "label": "5.5 kHz"
+        },
+        {
+          "field": "slew_rate",
+          "predicted": "2.5",
+          "label": "2.5 V/ms"
+        },
+        {
+          "field": "input_offset_voltage",
+          "predicted": "550",
+          "label": "390 uV"
+        }
+      ]
+    },
+    {
+      "part_number": "LT1359CS#PBF",
+      "accuracy": 0.3333,
+      "correct": 3,
+      "graded": 9,
+      "seconds": 5.4,
+      "error": "",
+      "values": {
+        "supply_voltage_max": "36",
+        "gain_bandwidth_product": "22000000",
+        "slew_rate": "150",
+        "input_offset_voltage": "1.3",
+        "operating_temp_min": "0",
+        "operating_temp_max": "85",
+        "package_case": "14-LEAD PDIP, 14-LEAD SO, 16-LEAD SO",
+        "num_channels": "4",
+        "mounting_style": "Through Hole"
+      },
+      "evidence": {
+        "supply_voltage_max": "Supply Voltage (\u00b1V) 36V",
+        "gain_bandwidth_product": "Gain Bandwidth Product (MHz)",
+        "slew_rate": "Slew Rate (AV = \u20132, \u00b15V) 150 V/\u00b5s",
+        "input_offset_voltage": "Input Offset Voltage (\u00b12.5V to \u00b115V) 1.3 mV",
+        "operating_temp_min": "Absolute Maximum Ratings - ABSOLUTE MAXIMUM TEMPERATURE RANGE \u201340\u00b0C to 85\u00b0C",
+        "operating_temp_max": "Absolute Maximum Ratings - ABSOLUTE MAXIMUM TEMPERATURE RANGE \u201340\u00b0C to 85\u00b0C",
+        "package_case": "Package/Order I FOR ORDER PART NUMBER LT1359CS14",
+        "num_channels": "Number of Amplifier Channels in the Package (1, 2 or 4) 4",
+        "mounting_style": "Mounting Style: 'Through Hole'"
+      },
+      "usage": {
+        "input_tokens": 14904,
+        "output_tokens": 391,
+        "calls": 1,
+        "seconds": 5.361,
+        "cost_usd": 0.0
+      },
+      "tool_calls": 0,
+      "steps": 1,
+      "pre_retry_values": {},
+      "verification": {
+        "checked": 0,
+        "rejected": [],
+        "usage": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "calls": 0,
+          "seconds": 0.0,
+          "cost_usd": null
+        }
+      },
+      "retried_fields": [],
+      "repaired_fields": [],
+      "wrong_fields": [
+        {
+          "field": "gain_bandwidth_product",
+          "predicted": "22000000",
+          "label": "25 MHz"
+        },
+        {
+          "field": "slew_rate",
+          "predicted": "150",
+          "label": "600 V/us"
+        },
+        {
+          "field": "input_offset_voltage",
+          "predicted": "1.3",
+          "label": "0.2 mV"
+        },
+        {
+          "field": "operating_temp_min",
+          "predicted": "0",
+          "label": "- 40 C"
+        },
+        {
+          "field": "package_case",
+          "predicted": "14-LEAD PDIP, 14-LEAD SO, 16-LEAD SO",
+          "label": "SO-16"
+        },
+        {
+          "field": "mounting_style",
+          "predicted": "Through Hole",
+          "label": "SMD/SMT"
+        }
+      ]
+    },
+    {
+      "part_number": "TLC082IDGNR",
+      "accuracy": 0.6667,
+      "correct": 6,
+      "graded": 9,
+      "seconds": 3.56,
+      "error": "",
+      "values": {
+        "supply_voltage_max": "16",
+        "gain_bandwidth_product": "10",
+        "slew_rate": "16",
+        "input_offset_voltage": "60",
+        "operating_temp_min": "-40",
+        "operating_temp_max": "125",
+        "package_case": "MSOP-PowerPAD",
+        "num_channels": "1",
+        "mounting_style": "SMD/SMT"
+      },
+      "evidence": {
+        "supply_voltage_max": "VDD = 16 V",
+        "gain_bandwidth_product": "Gain-bandwidth product vs Supply voltage",
+        "slew_rate": "Slew rate vs Supply voltage",
+        "input_offset_voltage": "Input offset voltage vs Free-air temperature",
+        "operating_temp_min": "Recommended Operating Conditions",
+        "operating_temp_max": "Recommended Operating Conditions",
+        "package_case": "Package Option Addendum",
+        "num_channels": "Package Option Addendum",
+        "mounting_style": "Package Option Addendum"
+      },
+      "usage": {
+        "input_tokens": 22167,
+        "output_tokens": 274,
+        "calls": 1,
+        "seconds": 3.42,
+        "cost_usd": 0.0
+      },
+      "tool_calls": 0,
+      "steps": 1,
+      "pre_retry_values": {},
+      "verification": {
+        "checked": 0,
+        "rejected": [],
+        "usage": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "calls": 0,
+          "seconds": 0.0,
+          "cost_usd": null
+        }
+      },
+      "retried_fields": [],
+      "repaired_fields": [],
+      "wrong_fields": [
+        {
+          "field": "input_offset_voltage",
+          "predicted": "60",
+          "label": "1.9 mV"
+        },
+        {
+          "field": "package_case",
+          "predicted": "MSOP-PowerPAD",
+          "label": "MSOP-PowerPad-8"
+        },
+        {
+          "field": "num_channels",
+          "predicted": "1",
+          "label": "2 Channel"
+        }
+      ]
+    },
+    {
+      "part_number": "MAX4322ESA+T",
+      "accuracy": 0.8889,
+      "correct": 8,
+      "graded": 9,
+      "seconds": 4.61,
+      "error": "",
+      "values": {
+        "supply_voltage_max": "6.5",
+        "gain_bandwidth_product": "5",
+        "slew_rate": "2",
+        "input_offset_voltage": "\u00b12.0",
+        "operating_temp_min": "-40",
+        "operating_temp_max": "+85",
+        "package_case": "UCSP",
+        "num_channels": "1",
+        "mounting_style": "SMD/SMT"
+      },
+      "evidence": {
+        "supply_voltage_max": "Supply Voltage (VCC - VEE)...............................................7.5V",
+        "gain_bandwidth_product": "Gain-Bandwidth Product..................................................5 MHz",
+        "slew_rate": "Slew Rate...............................................................2 V/\u03bcs",
+        "input_offset_voltage": "Input Offset Voltage..................................................\u00b12.0 mV",
+        "operating_temp_min": "Operating Temperature Range.............................................-40\u00b0C to +85\u00b0C",
+        "operating_temp_max": "Operating Temperature Range.............................................-40\u00b0C to +85\u00b0C",
+        "package_case": "UCSP is a trademark of Maxim Integrated Products, Inc.",
+        "num_channels": "Number of amplifier channels in the package (1, 2 or 4).",
+        "mounting_style": "Pin Configurations continued at end of data sheet."
+      },
+      "usage": {
+        "input_tokens": 14556,
+        "output_tokens": 340,
+        "calls": 1,
+        "seconds": 4.565,
+        "cost_usd": 0.0
+      },
+      "tool_calls": 0,
+      "steps": 1,
+      "pre_retry_values": {},
+      "verification": {
+        "checked": 0,
+        "rejected": [],
+        "usage": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "calls": 0,
+          "seconds": 0.0,
+          "cost_usd": null
+        }
+      },
+      "retried_fields": [],
+      "repaired_fields": [],
+      "wrong_fields": [
+        {
+          "field": "package_case",
+          "predicted": "UCSP",
+          "label": "SOIC-Narrow-8"
+        }
+      ]
+    },
+    {
+      "part_number": "LM2900N",
+      "accuracy": 0.75,
+      "correct": 6,
+      "graded": 8,
+      "seconds": 4.65,
+      "error": "",
+      "values": {
+        "supply_voltage_max": "36",
+        "gain_bandwidth_product": "2.5",
+        "slew_rate": "20",
+        "input_offset_voltage": "0.2",
+        "operating_temp_min": "-40",
+        "operating_temp_max": "85",
+        "package_case": "SOIC",
+        "num_channels": "4",
+        "mounting_style": "SMD/SMT"
+      },
+      "evidence": {
+        "supply_voltage_max": "Supply voltage, VCC\u00b1 = \u00b115 V, TA = 25\u00b0C",
+        "gain_bandwidth_product": "Gain-bandwidth product (GBP / GBW), Typical Value",
+        "slew_rate": "Slew rate at unity gain, Low-to-high output, VO = 10 V, CL = 100 pF, RL = 2 k\u03a9",
+        "input_offset_voltage": "Input offset voltage (Vos), Minimum",
+        "operating_temp_min": "Operating free-air temperature range",
+        "operating_temp_max": "Operating free-air temperature range",
+        "package_case": "Package option addendum",
+        "num_channels": "Electrical characteristics, VCC = 15 V, TA = 25\u00b0C",
+        "mounting_style": "Package option addendum"
+      },
+      "usage": {
+        "input_tokens": 9197,
+        "output_tokens": 335,
+        "calls": 1,
+        "seconds": 4.611,
+        "cost_usd": 0.0
+      },
+      "tool_calls": 0,
+      "steps": 1,
+      "pre_retry_values": {},
+      "verification": {
+        "checked": 0,
+        "rejected": [],
+        "usage": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "calls": 0,
+          "seconds": 0.0,
+          "cost_usd": null
+        }
+      },
+      "retried_fields": [],
+      "repaired_fields": [],
+      "wrong_fields": [
+        {
+          "field": "supply_voltage_max",
+          "predicted": "36",
+          "label": "32 V"
+        },
+        {
+          "field": "package_case",
+          "predicted": "SOIC",
+          "label": "PDIP-14"
+        }
+      ]
+    },
+    {
+      "part_number": "LMH6657MG/NOPB",
+      "accuracy": 0.4444,
+      "correct": 4,
+      "graded": 9,
+      "seconds": 4.08,
+      "error": "",
+      "values": {
+        "supply_voltage_max": "12.6",
+        "gain_bandwidth_product": "220",
+        "slew_rate": "420",
+        "input_offset_voltage": "\u00b17",
+        "operating_temp_min": "-40",
+        "operating_temp_max": "85",
+        "package_case": "SC70",
+        "num_channels": "1",
+        "mounting_style": "Through Hole"
+      },
+      "evidence": {
+        "supply_voltage_max": "Supply Voltage (V+ - V\u2212)",
+        "gain_bandwidth_product": "Gain Bandwidth Product",
+        "slew_rate": "Slew Rate(3)",
+        "input_offset_voltage": "Input Offset Voltage",
+        "operating_temp_min": "Recommended Operating Conditions",
+        "operating_temp_max": "Recommended Operating Conditions",
+        "package_case": "Package Option Addendum",
+        "num_channels": "Package Option Addendum",
+        "mounting_style": "Package Option Addendum"
+      },
+      "usage": {
+        "input_tokens": 20594,
+        "output_tokens": 266,
+        "calls": 1,
+        "seconds": 3.957,
+        "cost_usd": 0.0
+      },
+      "tool_calls": 0,
+      "steps": 1,
+      "pre_retry_values": {},
+      "verification": {
+        "checked": 0,
+        "rejected": [],
+        "usage": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "calls": 0,
+          "seconds": 0.0,
+          "cost_usd": null
+        }
+      },
+      "retried_fields": [],
+      "repaired_fields": [],
+      "wrong_fields": [
+        {
+          "field": "gain_bandwidth_product",
+          "predicted": "220",
+          "label": "140 MHz"
+        },
+        {
+          "field": "slew_rate",
+          "predicted": "420",
+          "label": "700 V/us"
+        },
+        {
+          "field": "input_offset_voltage",
+          "predicted": "\u00b17",
+          "label": "5 mV"
+        },
+        {
+          "field": "package_case",
+          "predicted": "SC70",
+          "label": "SC70-5"
+        },
+        {
+          "field": "mounting_style",
+          "predicted": "Through Hole",
+          "label": "SMD/SMT"
+        }
+      ]
+    },
+    {
+      "part_number": "NCS20072DMR2G",
+      "accuracy": 0.6667,
+      "correct": 6,
+      "graded": 9,
+      "seconds": 3.64,
+      "error": "",
+      "values": {
+        "supply_voltage_max": "36",
+        "gain_bandwidth_product": "3",
+        "slew_rate": "2.8",
+        "input_offset_voltage": "\u00b13.5 mV",
+        "operating_temp_min": "-40",
+        "operating_temp_max": "125",
+        "package_case": "TSSOP\u22128",
+        "num_channels": "2",
+        "mounting_style": "SMD/SMT"
+      },
+      "evidence": {
+        "supply_voltage_max": "Supply Voltage (Single Supply)",
+        "gain_bandwidth_product": "Gain Bandwidth Product",
+        "slew_rate": "Slew Rate at Unity Gain",
+        "input_offset_voltage": "Input Offset Voltage",
+        "operating_temp_min": "Operating Supply Voltage (Single Supply)",
+        "operating_temp_max": "Operating Supply Voltage (Single Supply)",
+        "package_case": "Package Dimensions",
+        "num_channels": "Dual Channel Configuration",
+        "mounting_style": "Package Dimensions"
+      },
+      "usage": {
+        "input_tokens": 19256,
+        "output_tokens": 270,
+        "calls": 1,
+        "seconds": 3.563,
+        "cost_usd": 0.0
+      },
+      "tool_calls": 0,
+      "steps": 1,
+      "pre_retry_values": {},
+      "verification": {
+        "checked": 0,
+        "rejected": [],
+        "usage": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "calls": 0,
+          "seconds": 0.0,
+          "cost_usd": null
+        }
+      },
+      "retried_fields": [],
+      "repaired_fields": [],
+      "wrong_fields": [
+        {
+          "field": "slew_rate",
+          "predicted": "2.8",
+          "label": "2.4 V/us"
+        },
+        {
+          "field": "input_offset_voltage",
+          "predicted": "\u00b13.5 mV",
+          "label": "1.3 mV"
+        },
+        {
+          "field": "package_case",
+          "predicted": "TSSOP-8",
+          "label": "MSOP-8"
+        }
+      ]
+    },
+    {
+      "part_number": "TSZ182IST",
+      "accuracy": 0.5556,
+      "correct": 5,
+      "graded": 9,
+      "seconds": 4.59,
+      "error": "",
+      "values": {
+        "supply_voltage_max": "5",
+        "gain_bandwidth_product": "2.3",
+        "slew_rate": "4.5",
+        "input_offset_voltage": "35",
+        "operating_temp_min": "-40",
+        "operating_temp_max": "125",
+        "package_case": "DFN8 2x2",
+        "num_channels": "2",
+        "mounting_style": "SMD/SMT"
+      },
+      "evidence": {
+        "supply_voltage_max": "Table 5. Electrical characteristics at VCC+ = 5 V with VCC- = 0 V, Vicm = VCC/2, T = 25 \u00b0C, and RL = 10 k\u03a9 connected to VCC/2 (unless otherwise specified)",
+        "gain_bandwidth_product": "Table 3. Electrical characteristics at V CC+ = 2.2 V with V CC- = 0 V, Vicm = V CC/2, T = 25 \u00b0C, and RL = 10 k\u03a9 connected to VCC/2 (unless otherwise specified)",
+        "slew_rate": "Table 3. Electrical characteristics at V CC+ = 2.2 V with V CC- = 0 V, Vicm = V CC/2, T = 25 \u00b0C, and RL = 10 k\u03a9 connected to VCC/2 (unless otherwise specified)",
+        "input_offset_voltage": "Table 3. Electrical characteristics at V CC+ = 2.2 V with V CC- = 0 V, Vicm = V CC/2, T = 25 \u00b0C, and RL = 10 k\u03a9 connected to VCC/2 (unless otherwise specified)",
+        "operating_temp_min": "Table 2. Operating conditions",
+        "operating_temp_max": "Table 2. Operating conditions",
+        "package_case": "Table 8. DFN8 2 x 2 mechanical data",
+        "num_channels": "Table 8. DFN8 2 x 2 mechanical data",
+        "mounting_style": "Table 8. DFN8 2 x 2 mechanical data"
+      },
+      "usage": {
+        "input_tokens": 24126,
+        "output_tokens": 520,
+        "calls": 1,
+        "seconds": 4.384,
+        "cost_usd": 0.0
+      },
+      "tool_calls": 0,
+      "steps": 1,
+      "pre_retry_values": {},
+      "verification": {
+        "checked": 0,
+        "rejected": [],
+        "usage": {
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "calls": 0,
+          "seconds": 0.0,
+          "cost_usd": null
+        }
+      },
+      "retried_fields": [],
+      "repaired_fields": [],
+      "wrong_fields": [
+        {
+          "field": "supply_voltage_max",
+          "predicted": "5",
+          "label": "5.5 V"
+        },
+        {
+          "field": "gain_bandwidth_product",
+          "predicted": "2.3",
+          "label": "3 MHz"
+        },
+        {
+          "field": "input_offset_voltage",
+          "predicted": "35",
+          "label": "1 uV"
+        },
+        {
+          "field": "package_case",
+          "predicted": "DFN8 2x2",
+          "label": "MiniSO-8"
+        }
+      ]
+    }
+  ]
+}

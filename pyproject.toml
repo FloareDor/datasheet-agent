@@ -1,0 +1,38 @@
+[project]
+name = "datasheet-agent"
+version = "0.1.0"
+description = "Parallel tool-using agents with a source-grounded verifier for chip datasheet spec extraction."
+requires-python = ">=3.13"
+dependencies = [
+    "pydantic>=2.7",
+    "anthropic>=0.40",
+    "openai>=1.40",
+    "langgraph>=0.2.40",
+    "langchain-core>=0.3",
+    "rapidfuzz>=3.9",
+    "pypdf>=4.3",
+    "beautifulsoup4>=4.12",
+    "lxml>=5.2",
+    "python-dotenv>=1.0",
+    "datasheetindex>=0.47",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.2", "ruff>=0.6"]
+serve = ["modal>=1.0", "locust>=2.31", "fastapi[standard]>=0.115"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.uv.sources]
+datasheetindex = { git = "https://github.com/Infineon/datasheetindex" }
