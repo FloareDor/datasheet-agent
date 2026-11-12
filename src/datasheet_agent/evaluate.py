@@ -26,6 +26,7 @@ from datasheet_agent.pipeline import (
     extract_multi_agent,
     extract_single_agent,
 )
+from datasheet_agent.rag import extract_rag
 
 Method = Callable[[PipelineConfig, str, Path], PipelineResult]
 
@@ -121,8 +122,20 @@ def method_single_call(config: PipelineConfig, part_number: str, pdf_path: Path)
     return PipelineResult(extraction=extraction)
 
 
+def method_rag_bm25(config: PipelineConfig, part_number: str, pdf_path: Path) -> PipelineResult:
+    """Retrieval baseline, lexical -- the measured answer to "why not just RAG?"."""
+    return PipelineResult(extraction=extract_rag(config.backend, part_number, pdf_path, "bm25"))
+
+
+def method_rag_dense(config: PipelineConfig, part_number: str, pdf_path: Path) -> PipelineResult:
+    """Retrieval baseline, dense embeddings -- RAG as it is usually built."""
+    return PipelineResult(extraction=extract_rag(config.backend, part_number, pdf_path, "dense"))
+
+
 METHODS: dict[str, Method] = {
     "single_call": method_single_call,
+    "rag_bm25": method_rag_bm25,
+    "rag_dense": method_rag_dense,
     "single_agent": extract_single_agent,
     "multi_agent": extract_multi_agent,
 }

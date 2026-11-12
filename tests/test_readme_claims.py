@@ -31,6 +31,10 @@ CLAIMS: dict[str, str] = {
     "1.5B single agent": "v3-singleagent-qwen1.5b-test.json",
     "1.5B multi-agent": "v3-multiagent-qwen1.5b-test.json",
     "1.5B RL-trained agent": "v3trained-singleagent-test.json",
+    "32B BM25 RAG": "v8-rag-bm25-large-test.json",
+    "32B dense RAG": "v8-rag-dense-large-test.json",
+    "1.5B BM25 RAG": "v8-rag-bm25-qwen1.5b-test.json",
+    "1.5B dense RAG": "v8-rag-dense-qwen1.5b-test.json",
 }
 
 # Rows in the RL table, which names runs by version rather than by model.
@@ -39,6 +43,15 @@ RL_CLAIMS: dict[str, str] = {
     "v2": "v2trained-singleagent-test.json",
     "v3": "v3trained-singleagent-test.json",
     "v4": "v4trained-nocost-singleagent-test.json",
+}
+
+# Rows in the verifier ablation, which names configurations rather than models.
+VERIFIER_CLAIMS: dict[str, str] = {
+    "no verifier": "v3-multiagent-qwen1.5b-test.json",
+    "code checks only": "v6-multiagent-codeverify-qwen1.5b-test.json",
+    "code + Phi-4 verifier": "v6-multiagent-verified-qwen1.5b-test.json",
+    "strict evidence checks only": "v7-multiagent-codeverify-qwen1.5b-test.json",
+    "strict evidence + Phi-4": "v7-multiagent-verified-qwen1.5b-test.json",
 }
 
 TOLERANCE = 0.06  # percentage points; the README rounds to one decimal
@@ -113,9 +126,26 @@ def test_rl_table_matches_the_measured_run(label: str, run_file: str) -> None:
     )
 
 
+@pytest.mark.parametrize(("label", "run_file"), sorted(VERIFIER_CLAIMS.items()))
+def test_verifier_ablation_matches_the_measured_run(label: str, run_file: str) -> None:
+    measured = _accuracy(run_file)
+    if measured is None:
+        pytest.skip(f"{run_file} not measured yet")
+
+    rows = [r for r in _readme_rows() if r and r[0].strip("*` ") == label]
+    assert rows, f"README no longer has a verifier row for {label!r}"
+    quoted = _quoted_accuracy(rows[0])
+    assert quoted is not None, f"verifier row {label!r} quotes no accuracy"
+    assert abs(quoted - measured) < TOLERANCE, (
+        f"README verifier table claims {quoted}% for {label!r}, but {run_file} "
+        f"measured {measured:.1f}%"
+    )
+
+
 def test_every_run_the_readme_names_actually_exists() -> None:
     """A README naming a run file that is not in `runs/` is quoting nothing."""
-    missing = [f for f in {**CLAIMS, **RL_CLAIMS}.values() if not (RUNS / f).exists()]
+    named = {**CLAIMS, **RL_CLAIMS, **VERIFIER_CLAIMS}
+    missing = [f for f in named.values() if not (RUNS / f).exists()]
     if missing:
         pytest.skip(f"not yet measured: {missing}")
     assert True

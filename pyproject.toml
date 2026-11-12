@@ -20,6 +20,9 @@ dependencies = [
 [project.optional-dependencies]
 dev = ["pytest>=8.2", "ruff>=0.6"]
 serve = ["modal>=1.0", "locust>=2.31", "fastapi[standard]>=0.115"]
+# Only the dense retrieval baseline needs torch. Keeping it out of the core
+# dependencies means the agents, the eval and the tests install without it.
+rag = ["sentence-transformers>=3.0"]
 
 [tool.setuptools.packages.find]
 where = ["src"]

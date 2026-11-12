@@ -25,7 +25,11 @@ has to find the values itself.
 
 This repo extracts nine parametric fields from op-amp datasheets with parallel tool-using agents
 and a source-grounded verifier, then trains a 1.5B model to do it with GRPO — and measures all of
-it against a held-out split.
+it against a held-out split and against a plain retrieval baseline.
+
+**The baseline wins.** BM25 retrieval matches whole-document prompting on half the tokens and beats
+every agent configuration at both model sizes. The interesting part of this repo is the measurement
+that shows *why*, and the claim it forced me to retract.
 
 > [!NOTE]
 > Every number below is measured on a held-out 100-part test split and reproducible from
@@ -41,9 +45,14 @@ it against a held-out split.
   [LangGraph](https://langchain-ai.github.io/langgraph/) and merge in code, because the groups are
   disjoint and there is nothing to arbitrate.
 - **A verifier that checks the source, not the model** — unit and range checks first, then a model
-  from a *different* family, with rejected fields returned to their own agent once.
+  from a *different* family, with rejected fields returned to their own agent once. The quote it
+  checks is written by the agent, not copied from the tool, which is both why the check is worth
+  running and where it runs out.
 - **Agentic RL** — GRPO on Qwen2.5-1.5B through TRL's multi-turn `environment_factory`, with a
   grounding gate that makes guessing worthless.
+- **A retrieval baseline that is allowed to win** — BM25 and dense RAG over the same chunks, same
+  prompt, same grader, plus a coverage decomposition that separates failing to *find* a value from
+  failing to *read* it.
 - **Honest cost accounting** — GPU-seconds at Modal's published rates divided by the throughput
   each run actually sustained, never an assumed token price.
 - **Everything served on [Modal](https://modal.com)** — vLLM inference, GRPO training, a live demo
@@ -55,38 +64,127 @@ it against a held-out split.
 
 | model | method | accuracy | $/datasheet | tokens in | tool calls | failures |
 |---|---|---|---|---|---|---|
-| Qwen2.5-32B | single call | **76.2%** | $0.0052 | 15.9k | 0 | 9 |
-| Qwen2.5-32B | **multi-agent** | **75.1%** | $0.0139 | 25.4k | 12.4 | **0** |
+| Qwen2.5-32B | BM25 RAG | **78.1%** | $0.0035 | **7.5k** | 0 | 6 |
+| Qwen2.5-32B | single call | 76.2% | $0.0052 | 15.9k | 0 | 9 |
+| Qwen2.5-32B | multi-agent | 75.1% | $0.0139 | 25.4k | 12.4 | **0** |
+| Qwen2.5-32B | dense RAG | 71.9% | $0.0052\* | 7.7k | 0 | 3 |
 | Qwen2.5-32B | single agent | 70.5% | $0.0089 | 14.9k | 12.6 | 4 |
-| Qwen2.5-1.5B | single call | 59.5% | **$0.0005** | 15.9k | 0 | 10 |
+| Qwen2.5-1.5B | BM25 RAG | **60.8%** | **$0.0004** | **7.5k** | 0 | 3 |
+| Qwen2.5-1.5B | single call | 59.5% | $0.0005 | 15.9k | 0 | 10 |
+| Qwen2.5-1.5B | dense RAG | 54.7% | $0.0009\* | 7.7k | 0 | 1 |
 | Qwen2.5-1.5B | single agent | 40.5% | $0.0026 | 26.5k | 8.0 | 20 |
 | Qwen2.5-1.5B | RL-trained agent | 33.7% | $0.0011 | 6.7k | 1.0 | 4 |
 | Qwen2.5-1.5B | multi-agent | 32.2% | $0.0018 | 50.3k | 23.5 | 32 |
 
+\* The dense figure charges GPU time for CPU embedding work, because cost is wall-clock based.
+Treat it as an upper bound.
+
 **The 1.5B reaches 78% of the 32B's accuracy at a tenth of the cost** — 59.5% vs 76.2% for
 $0.0005 against $0.0052, 10.6× cheaper.
 
-### Multi-agent only pays once the model is good enough
+**And the tool-using agents lose to a thirty-line BM25 retriever at both model sizes.** That is the
+headline result of this repo, it is not the one it was built to produce, and the section below is
+the measurement rather than the rationalisation.
 
-This finding needed both models to see, and it reverses on model size:
+### Why not just RAG?
 
-| | single call − multi-agent | multi-agent vs single agent |
+The first question anyone asks about a tool-using agent, and for a long time this repo answered it
+with reasoning instead of a baseline. Here is the baseline: fixed-size chunking, one query per
+field built from the same `search_terms` the agent's tools get, top-3 chunks per field merged and
+capped at 20, then one call with the same prompt, the same output contract and the same grader.
+Only the retrieved text differs.
+
+Comparisons are paired — every method grades the same fields, so the test is McNemar's rather than
+an eyeball of two percentages:
+
+| comparison | result | p |
 |---|---|---|
-| **Qwen2.5-1.5B** | **27.3 points** worse | multi-agent **8.3 points worse** |
-| **Qwen2.5-32B** | **1.1 points** worse | multi-agent **4.6 points better** |
+| BM25 RAG vs single call, 1.5B | tie (38 won, 48 lost) | 0.33 |
+| BM25 RAG vs single call, 32B | tie (29 won, 26 lost) | 0.79 |
+| BM25 RAG vs single agent, 1.5B | **RAG wins** 131–60 | <0.001 |
+| BM25 RAG vs multi-agent, 1.5B | **RAG wins** 228–44 | <0.001 |
+| BM25 RAG vs single agent, 32B | **RAG wins** 120–34 | <0.001 |
+| BM25 RAG vs multi-agent, 32B | **RAG wins** 113–44 | <0.001 |
 
-At 1.5B, splitting the work across three field agents is the worst option available. At 32B the
-ordering **flips**: multi-agent beats the single agent, comes within a point of pasting in the whole
-datasheet, and is the only configuration that extracted all 100 parts with **zero failures**.
+**Retrieval ties whole-document prompting at both scales on half the tokens, and beats every agent
+configuration at both scales.** Four tests against the agents, all p < 0.001, all the same
+direction. The agents never win.
 
-That is exactly [Anthropic's criterion](https://claude.com/resources/articles/building-multi-agent-systems-when-and-how-to-use-them)
-— subtasks must be separable *and the model capable enough to exploit the separation*. Measuring
-only the 1.5B would have produced the confident wrong conclusion that the architecture does not
-work. It does; the small model could not use it.
+> [!CAUTION]
+> **Retracted: "multi-agent pays above a capability threshold."** An earlier version of this README
+> made that claim because at 32B the multi-agent beat the single *agent* by 4.6 points. The
+> comparison is real and it was the wrong one — both agent designs lose decisively to a scoring
+> function with no model in it. Ranking configurations that all lose to the baseline is not a
+> finding. The baseline should have existed before the claim did; the build order in
+> [`context/plan.md`](context/plan.md) put baselines at step 4 for exactly this reason, and the two
+> baselines actually built were both agent-adjacent.
 
-The token economics move the same way. At 32B the single agent reads **fewer** input tokens than
-pasting the datasheet in (14.9k vs 15.9k) because it fetches only what it needs. At 1.5B the same
-agent reads 26.5k — it searches badly and reads the wrong pages.
+#### Where the agents lose it: finding, or reading?
+
+Accuracy alone cannot say whether a wrong answer means the text never reached the model or reached
+it and was misread. [`scripts/coverage_report.py`](scripts/coverage_report.py) splits it:
+
+> **accuracy = coverage × reading accuracy**
+
+where coverage is the share of fields whose answer was anywhere in the context that method put in
+front of the model, over the seven numeric fields at 32B:
+
+| method | coverage | reading accuracy |
+|---|---|---|
+| BM25 RAG | **98.2%** | **78.4%** |
+| whole document | 98.8% | 75.3% |
+| single agent | **93.0%** | 74.1% |
+| dense RAG | 96.6% | 69.0% |
+
+The agent is the only method that sees a subset it chose itself, so it is the only one that *can*
+fail to navigate — and it does, missing the answer three times as often as retrieval. But it also
+reads worse on what it does find. Splitting the 8.1-point gap counterfactually: give the agent
+RAG's coverage and it gains **3.9 points**; give it RAG's reading accuracy and it gains **4.0**. An
+even split.
+
+**It is not seeing less text.** Median context is 13.7k characters for the agent against 16.4k for
+RAG, means 15.8k for both. At equal context size, a thirty-line scoring function assembles a better
+context than an agent choosing for itself across nine LLM calls — better in where it looks, and
+better in what comes back, because tool output arrives as truncated snippets stripped of the row
+and column headers that identify a value. The agent's own evidence quotes show it: `"...range
+includes ground - Differential input voltage..."` offered as the source for a supply-voltage
+answer.
+
+**And retrieval is not winning by finding things either.** The whole document contains the answer
+98.8% of the time; BM25 matches that at 98.2% on an eighth of the characters. Retrieval's entire
+advantage is three points of reading accuracy. **It wins by removing distractors, not by locating
+anything** — which means better navigation was never the lever, and an architecture whose value
+proposition is better navigation is optimising a part that was not broken.
+
+#### Embeddings versus symbols
+
+Dense retrieval (MiniLM) loses to BM25 by 6.1 points at 1.5B and 6.2 at 32B, p < 0.001. The
+per-field shape is the reason, and it is the one a datasheet predicts:
+
+| field | BM25 | dense | diff |
+|---|---|---|---|
+| gain_bandwidth_product | 55.1% | 29.6% | **−25.5** |
+| slew_rate | 60.0% | 43.0% | **−17.0** |
+| num_channels | 66.0% | 56.0% | −10.0 |
+| input_offset_voltage | 19.4% | 12.2% | −7.2 |
+| supply_voltage_max | 77.8% | 73.3% | −4.5 |
+| operating_temp_max | 79.8% | 75.8% | −4.0 |
+| package_case | 31.0% | 32.0% | +1.0 |
+| operating_temp_min | 80.8% | 84.9% | +4.0 |
+| mounting_style | 78.6% | 86.7% | **+8.2** |
+
+Embeddings collapse on exactly the fields a datasheet writes as a terse symbol beside a number —
+`SR`, `GBW`, `V_OS` — and **win** on the fields written in ordinary words, `mounting_style`
+("surface mount") and `operating_temp_min` ("Operating Temperature Range"). Retrieval coverage says
+the same thing before any model reads anything: dense reaches the gain-bandwidth page for 90.8% of
+datasheets against BM25's 98.0%. A query embedding of "slew rate" lands near prose about slewing,
+not near a table cell reading `SR`.
+
+> [!NOTE]
+> The coverage metric counts a number equal to the label appearing *anywhere* in the context, with
+> no requirement that it sit by the right parameter. It is an upper bound on navigation, pinned as
+> such by a test. The bias is deliberate and one-directional: it can only make navigation look
+> better than it is, and the conclusion drawn from it is that navigation is not the problem.
 
 ### Where the small model actually loses
 
@@ -178,19 +276,70 @@ datasheet.pdf
   rejected fields go back to their own agent with the reason, once
 ```
 
-**The cheap checks run first**, and measurement says they are the only ones worth running:
+**The cheap checks run first.** Five configurations, same 100 held-out parts:
 
 | configuration | accuracy | precision | repaired | destroyed | latency |
 |---|---|---|---|---|---|
 | no verifier | 32.2% | — | — | — | 19.5 s |
-| **code checks only** | **33.0%** | **85.4%** | 11 | **0** | 14.0 s |
+| code checks only | 33.0% | 85.4% | 11 | **0** | 14.0 s |
 | code + Phi-4 verifier | 32.1% | 55.3% | 7 | 1 | 19.6 s |
+| strict evidence checks only | 31.9% | 52.5% | 7 | **0** | 29.9 s |
+| strict evidence + Phi-4 | 34.0% | 52.9% | 5 | 1 | 27.7 s |
 
-The verifier is a different model family on purpose — a model asked to check its own work tends to
-agree with it ([arXiv:2402.08115](https://arxiv.org/pdf/2402.08115v1.pdf)) — and it still was not
-enough. Phi-4 judges whether a quoted line supports a value, and the 1.5B's *evidence quotes* are
-often poor even when its *value* is right, so it rejects good answers for bad citations at 55.3%
-precision: barely better than a coin flip.
+> [!WARNING]
+> **None of these accuracy differences are real.** Every configuration grades the same
+> 882 fields, so the paired test is McNemar's, and no pair reaches significance:
+> best-vs-none is p = 0.57 (16 fields won, 12 lost), and the widest gap in the table is
+> p = 0.20. Reading the top 34.0% as "the verifier adds 1.8 points" would be reading
+> noise. An unpaired interval is no kinder — ±1.6 points at 1σ, which swallows the whole
+> column. **The accuracy column cannot answer this question at n = 100 parts.** It is
+> printed here because leaving it out would be worse, not because it decides anything.
+
+What *does* discriminate is the verifier graded as a classifier, where the per-check
+precisions differ by 4× and are measured on hundreds of rejections rather than inferred
+from a difference of a dozen fields:
+
+| code check | rejections | precision |
+|---|---|---|
+| value unreadable in the asked-for unit | 30 | **100%** |
+| value outside the plausible range | 4 | **100%** |
+| value not stated on the quoted line | 108 | 45.4% |
+| quote does not appear in the document | 12 | 41.7% |
+| no quote given at all | 25 | **24.0%** |
+
+The two strict checks are the bottom rows, and they are **off by default**
+(`DSA_REQUIRE_VALUE_IN_QUOTE`, `DSA_REQUIRE_EVIDENCE`). They work as designed — they cut
+wrong values reaching the output from 188 to 67 — but they are checks on the *quote*, and
+at 1.5B the quote and the value fail independently. Rejecting every unevidenced value
+throws out three correct answers for every wrong one it catches, because this model
+frequently reads the right number off the right line and then cites it badly. **Demanding
+that a small model justify itself mostly punishes it for being bad at justifying itself.**
+
+The checks that hold at 100% are the ones that look at the value alone and need no quote.
+
+The verifier is a different model family on purpose — a model asked to check its own work
+tends to agree with it ([arXiv:2402.08115](https://arxiv.org/pdf/2402.08115v1.pdf)) — and
+it still was not enough, at 55.3% precision.
+
+> [!IMPORTANT]
+> **The quote is text the model typed, not text a tool returned.** The agent reads a table
+> through `read_table`, then *writes out* the line it says it used, so it can mistype it,
+> splice two rows, or invent it wholesale. That is what makes the check worth having — and
+> what caps it. Grounding is token overlap against the document, so it asks only whether
+> the line exists. Checking the number against its own quote asks only whether the value is
+> on that line. **Neither asks whether it is the right line**, which is exactly the error
+> the negative control found: a transition frequency quoted under gain-bandwidth product
+> passes both, because the quote is real and the number really is on it.
+>
+> The fix is structural, not another check: have the agent return a *location* in the tool
+> output — page and row — and have code pull the text from that spot, so the quote cannot
+> be authored by the model at all. That leaves exactly one open question (did it point at
+> the right row) instead of four. Not built.
+
+> [!NOTE]
+> An earlier version of this section called the code checks "the only ones worth running",
+> on a 0.8-point difference. That was the accuracy column being read as though it could
+> resolve a point. It cannot, and the paired test above is what says so.
 
 > [!IMPORTANT]
 > **A rejection must never be allowed to erase a value.** Before that rule the verifier cost
@@ -285,7 +434,15 @@ python scripts/summarise_runs.py               # regenerates runs/summary.md
 
 `--method` is one of `single_call`, `single_agent`, `multi_agent`; `--backend` is `small`,
 `small-spec`, `trained` or `large`. Add `--no-verifier` or `--verifier-backend none` to ablate the
-verifier.
+verifier. The two strict evidence checks are off by default and switch on through the
+environment, so the ablation reproduces without editing source:
+
+```bash
+DSA_REQUIRE_VALUE_IN_QUOTE=1 DSA_REQUIRE_EVIDENCE=1 \n  python scripts/run_eval.py --method multi_agent --split test --backend small \n  --verifier-backend verifier --tag v7-multiagent-verified-qwen1.5b
+
+python scripts/verifier_report.py runs/v7-multiagent-verified-qwen1.5b-test.json
+python scripts/paired_compare.py v3-multiagent-qwen1.5b v7-multiagent-verified-qwen1.5b
+```
 
 ### Train with GRPO
 
@@ -357,18 +514,24 @@ one final call with no tools when its budget runs out.
 
 ## What this project shows
 
-Three claims, each backed by a run in [`runs/`](runs/):
+Four claims, each backed by a run in [`runs/`](runs/):
 
-1. **A 1.5B model reaches 78% of a 32B's accuracy at a tenth of the cost** — 59.5% vs 76.2% for
+1. **Plain BM25 retrieval beats every tool-using agent here, at both model scales.** Six paired
+   tests: RAG ties whole-document prompting (p = 0.33 and 0.79) on half the tokens, and beats both
+   agent designs at 1.5B and at 32B (all p < 0.001). The agents never win.
+2. **The bottleneck is comprehension, not navigation — and that is measured, not argued.** The
+   whole document contains the answer 98.8% of the time and BM25 reaches 98.2% on an eighth of the
+   characters, so retrieval's whole advantage is three points of *reading* accuracy. It wins by
+   removing distractors. `input_offset_voltage` is the thesis in one field: ~96% coverage, ~46–55%
+   reading accuracy in every method, because typ and max sit in adjacent columns.
+3. **A 1.5B model reaches 78% of a 32B's accuracy at a tenth of the cost** — 59.5% vs 76.2% for
    $0.0005 vs $0.0052 per datasheet.
-2. **Multi-agent extraction pays only above a capability threshold.** At 32B it beats the single
-   agent by 4.6 points and finishes all 100 parts with zero failures; at 1.5B it is the worst option
-   by 27 points. Measuring one model alone would have given the opposite answer.
-3. **Agentic RL cut cost, not error.** GRPO took the 1.5B agent to 4× fewer tokens and 4× lower
-   latency and taught it to ground every answer in the document — but accuracy fell 6 points, because
-   the limit is reading comprehension rather than navigation.
+4. **Agentic RL cut cost, not error.** GRPO took the 1.5B agent to 4× fewer tokens and 4× lower
+   latency and taught it to ground every answer in the document — but accuracy fell 6 points. Three
+   independent measurements agree on why, and the coverage split above says what they were all
+   pointing at: RL over a navigation policy cannot fix comprehension.
 
-And three notes on method that mattered more than any single result:
+And four notes on method that mattered more than any single result:
 
 - **A field at exactly 0% is almost never the model's fault.** That pattern found three separate bugs
   here: a unit parser scoring formatting instead of extraction, a literal search tool, and a verifier
@@ -381,6 +544,16 @@ And three notes on method that mattered more than any single result:
   until it was graded as a classifier, which showed 55.3% precision *and* retries destroying 98
   correct values against 9 repaired. Those need opposite fixes, and the headline number could not
   distinguish them.
+- **Build the baseline that could embarrass the architecture, and build it first.** Every agent
+  number in this repo was measured for weeks against other agents. The first time a thirty-line
+  BM25 scorer was run on the same split, it beat all of them, and a claim had to be withdrawn.
+  A baseline you skip is not a baseline you passed.
+- **Check whether the number you are comparing can hold the comparison.** Five verifier
+  configurations span 2.1 accuracy points on 100 parts, and a paired McNemar test says not one pair
+  is distinguishable (p = 0.20 to 0.87). An earlier draft of this README picked a winner from that
+  column anyway. The per-check precisions, measured on hundreds of rejections instead of a
+  difference of a dozen fields, differ by 4× and are the numbers that actually decide something —
+  [`scripts/paired_compare.py`](scripts/paired_compare.py) is what settled it.
 
 ## Resources
 

@@ -11,6 +11,7 @@ Both return the same `Extraction`, so the evaluation harness cannot tell them ap
 from __future__ import annotations
 
 import json
+import os
 import re
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -24,6 +25,11 @@ DEFAULT_MAX_STEPS = 10
 # context the served models run with. A bigger budget silently truncates the tail of
 # the datasheet -- where the package tables usually are.
 SINGLE_CALL_CHAR_BUDGET = 60_000
+
+# Opt-in, because it makes a run report tens of megabytes. It exists for the
+# coverage analysis: to ask whether a wrong answer was a failure to *find* the
+# value or a failure to *read* it, you need the text the agent actually saw.
+SAVE_CONTEXT = "DSA_SAVE_CONTEXT"
 
 
 @dataclass
@@ -43,8 +49,13 @@ class Extraction:
     def tool_call_count(self) -> int:
         return len(self.tool_calls)
 
+    @property
+    def context_seen(self) -> str:
+        """Everything the tools handed back, in the order the agent received it."""
+        return "\n".join(str(call.get("result", "")) for call in self.tool_calls)
+
     def to_dict(self, model: str = "") -> dict[str, object]:
-        return {
+        payload: dict[str, object] = {
             "part_number": self.part_number,
             "values": self.values,
             "evidence": self.evidence,
@@ -53,6 +64,9 @@ class Extraction:
             "steps": self.steps,
             "error": self.error,
         }
+        if os.environ.get(SAVE_CONTEXT, "0").strip().lower() in {"1", "true", "yes"}:
+            payload["context_seen"] = self.context_seen
+        return payload
 
     def merge(self, other: Extraction) -> None:
         """Fold another extraction's results and costs into this one."""

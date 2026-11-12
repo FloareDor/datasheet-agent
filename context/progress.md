@@ -888,3 +888,129 @@ is the right quote** — now stated in the README rather than left implied.
 a 32B's accuracy at 10.6x lower cost; multi-agent paying off only above a capability
 threshold; and RL buying cost rather than accuracy. It does **not** support the plan's
 drafted resume line of "accuracy X% -> Y%", and that line is claimed nowhere.
+## Iteration 22 — the evidence checks, measured
+
+Prompted by a review question: is the `quote` field written by the model, or copied
+from the tool result? It is written by the model (`extract.py`, `entry.get("evidence")`),
+so all four of the failure modes that implies are live — and the check that was assumed
+to be doing the real work, "does the number appear in the quote", did not exist.
+
+**Three checks added**, all in `verify.py`:
+
+1. `quoted_line()` strips the tool's `[page N]` prefix before anything else. Unstripped
+   it was actively harmful: `"[page 1]"` is 8 characters, so it cleared the length bar,
+   and its tokens `page` and `1` are in every document, so it cleared the 60% overlap
+   bar. A bare page number was passing as a grounded quote — 33 of 498 answered fields
+   in the previous run. Once the value check existed it would also have parsed that page
+   number as a measurement. This one is unconditional; it is a bug fix, not a policy.
+2. `value_appears_in_quote()` — parses every number out of the quote via the new
+   `units.parse_all_quantities`, rejects when none matches the reported value. Allows
+   unit conversion, the dual-supply ±18 V → 36 V derivation, unsigned range minima, and
+   channel counts written as words ("Quad Buffer" supports 4).
+3. A missing quote became a rejection rather than a silent pass.
+
+**Both 2 and 3 ship off** (`DSA_REQUIRE_VALUE_IN_QUOTE`, `DSA_REQUIRE_EVIDENCE`), because
+measurement said so. Two new runs over the same 100 held-out parts:
+
+| configuration | accuracy | precision | repaired | destroyed |
+|---|---|---|---|---|
+| no verifier (v3) | 32.2% | — | — | — |
+| code only (v6) | 33.0% | 85.4% | 11 | 0 |
+| code + Phi-4 (v6) | 32.1% | 55.3% | 7 | 1 |
+| strict code only (v7) | 31.9% | 52.5% | 7 | 0 |
+| strict code + Phi-4 (v7) | 34.0% | 52.9% | 5 | 1 |
+
+Per-check precision, from the single-stage strict run:
+
+| check | rejections | precision |
+|---|---|---|
+| value unreadable in the asked-for unit | 30 | 100% |
+| value outside the plausible range | 4 | 100% |
+| value not stated on the quoted line | 108 | 45.4% |
+| quote does not appear in the document | 12 | 41.7% |
+| no quote given at all | 25 | 24.0% |
+
+The strict checks do what they were built to do — wrong values reaching the output fell
+from 188 to 67 — but they check the *quote*, and at 1.5B the quote and the value fail
+independently. Requiring evidence throws out three correct answers for each wrong one it
+catches.
+
+**The finding that outranks all of it:** none of those five accuracy numbers are
+distinguishable. Same 882 fields, so the test is paired; McNemar gives p = 0.20 to 0.87
+across every pair, including best-vs-none at p = 0.57 (16 fields won, 12 lost). The
+earlier README called code-only "the only one worth running" on a 0.8-point gap. That
+claim is now removed and replaced with the test that refutes it, and
+`scripts/paired_compare.py` makes it reproducible. The per-check precisions, measured on
+hundreds of rejections, are what actually discriminate.
+
+A test pins the limit rather than hiding it: a transition frequency quoted under
+gain-bandwidth product passes both evidence checks, because the number really is on the
+line. The structural fix — have the agent return a page-and-row *location* and have code
+pull the text — is written up in the README as the next step. Not built.
+
+134 tests, ruff clean. Runs: `v7-multiagent-codeverify-qwen1.5b-test.json`,
+`v7-multiagent-verified-qwen1.5b-test.json`.
+
+## Iteration 23 — the RAG baseline, and why the agents lose
+
+Run because the obvious question had never been measured: *why not just RAG?* Four runs
+(BM25 and dense, at 1.5B and 32B) plus a coverage decomposition.
+
+**RAG ties the whole-document call at both scales and beats every agent design at both.**
+
+| method | 1.5B | 32B | tokens in |
+|---|---|---|---|
+| BM25 RAG | 60.8% | 78.1% | 7.5k |
+| single call | 59.5% | 76.2% | 15.9k |
+| dense RAG | 54.7% | 71.9% | 7.7k |
+| multi-agent | 32.2% | 75.1% | 25-50k |
+| single agent | 40.5% | 70.5% | 15k |
+
+Paired McNemar: RAG vs single call p = 0.33 (1.5B) and p = 0.79 (32B) — a tie on half the
+tokens. RAG vs each agent design: four tests, all p < 0.001, all the same direction.
+
+**This retracts a claim.** The README said multi-agent "pays above a capability
+threshold", on the strength of beating the single *agent* by 4.6 points at 32B. True, and
+the wrong comparison: both agent designs lose to a thirty-line BM25 scorer. The baseline
+should have existed before the claim did — the plan's build order put baselines at step 4
+for exactly this reason, and the two baselines actually built were both agent-adjacent.
+
+**Why do the agents lose?** `scripts/coverage_report.py` splits accuracy into finding and
+reading: coverage is the share of fields whose answer was anywhere in the context the
+method saw, reading accuracy is how often it was then right.
+
+| 32B | coverage | reading |
+|---|---|---|
+| BM25 RAG | 98.2% | 78.4% |
+| whole document | 98.8% | 75.3% |
+| single agent | 93.0% | 74.1% |
+| dense RAG | 96.6% | 69.0% |
+
+The agent loses on both, and almost exactly equally: give it RAG's coverage and it gains
+3.9 points, give it RAG's reading and it gains 4.0.
+
+**The agent is not seeing less text.** Median context: 13.7k chars for the agent, 16.4k
+for RAG; means 15.8k for both. So at equal context size, a scoring function with no model
+in it assembles a better context than an agent choosing for itself with nine LLM calls —
+better in *where* it looks and in *what it gets back*, because tool output arrives as
+truncated snippets stripped of the row and column headers that identify a value.
+
+And retrieval is not winning by finding things. The whole document contains the answer
+98.8% of the time; BM25 matches that at 98.2% on an eighth of the characters. RAG's
+entire advantage is 3 points of reading accuracy — it wins by *removing* distractors, not
+by locating anything. The task's bottleneck is comprehension, which is the one thing
+better navigation cannot buy. That is also why GRPO bought 4x cost and no accuracy.
+
+One field states the problem on its own: `input_offset_voltage` has ~96% coverage and
+~46-55% reading accuracy in every method. The answer is on screen and the model picks the
+wrong number half the time, because typ and max sit in adjacent columns.
+
+Dense retrieval confirms the embeddings-versus-symbols argument with a per-field shape:
+coverage 90.8% for `gain_bandwidth_product` and 94.0% for `slew_rate` against BM25's 98%,
+while `operating_temp_*` and `num_channels` are identical. The embedding model fails to
+retrieve the GBW page at all for roughly one datasheet in ten. Caveat recorded in the
+tests: the presence metric counts a matching number *anywhere*, so it flatters navigation
+and some of dense's reading deficit is really retrieval quality.
+
+149 tests, ruff clean. Runs: `v8-rag-{bm25,dense}-{qwen1.5b,large}`,
+`v9-singleagent-large-ctx`.
