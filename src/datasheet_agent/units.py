@@ -178,3 +178,58 @@ def quantities_match(a: Quantity | None, b: Quantity | None, rel_tol: float = 0.
     if a.dimension == "temperature":
         return math.isclose(a.value, b.value, abs_tol=2.0)
     return math.isclose(a.value, b.value, rel_tol=rel_tol, abs_tol=1e-15)
+
+
+def parse_all_quantities(
+    raw: str | None, dimension: str, assume_unit: str | None = None
+) -> list[Quantity]:
+    """Every quantity of `dimension` that `raw` could be stating.
+
+    `parse_quantity` returns the first match, which is what an *answer* needs: the
+    model reports one value. A quoted table row is the opposite case -- it holds a
+    parameter name, test conditions, min/typ/max columns and a unit, and the value the
+    answer came from may be any of them. Checking that a reported value actually occurs
+    in its own quote therefore needs all the candidates, not the first one.
+
+    Deliberately permissive: bare numbers are included, read in the unit the answer was
+    asked for. A check built on this rejects only when *nothing* in the quote could be
+    the reported value, which is the error worth acting on.
+    """
+    text = clean_text(raw)
+    if not text or dimension not in BASE_UNIT:
+        return []
+
+    found: list[Quantity] = []
+    seen: set[float] = set()
+
+    def record(value: float) -> None:
+        if value not in seen:
+            seen.add(value)
+            found.append(Quantity(value, dimension))
+
+    if dimension != "count":
+        lowered = text.lower()
+        for alias in sorted(_UNIT_ALIASES[dimension], key=len, reverse=True):
+            pattern = rf"({_NUMBER})\s*([fpnuµμmkKMGT]?){re.escape(alias)}\b"
+            for match in re.finditer(pattern, lowered, flags=re.IGNORECASE):
+                number = _parse_number(match.group(1))
+                if number is None:
+                    continue
+                prefix = match.group(2)
+                start = match.start(2)
+                if start < len(text):
+                    prefix = text[start : start + len(prefix)]
+                scale = _scale_for(dimension, prefix, alias)
+                if scale is not None:
+                    record(number * scale)
+
+    scale = 1.0 if dimension in ("temperature", "count") else None
+    if assume_unit:
+        scale = unit_scale(assume_unit, dimension)
+    if scale is not None:
+        for match in re.finditer(_NUMBER, text):
+            number = _parse_number(match.group())
+            if number is not None:
+                record(number * scale)
+
+    return found

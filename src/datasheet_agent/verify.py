@@ -1,10 +1,12 @@
 """Checking extracted values against the datasheet they came from.
 
 Two stages, cheap first. Code checks catch the failures that do not need a model: a
-value in the wrong unit, a channel count of 3, a supply voltage of 900 V, and -- the
-one that matters most -- an evidence quote that appears nowhere in the datasheet. That
-last check is what "source-grounded" means here: a model that invents a plausible
-number usually invents the line it came from too, and the document can prove it.
+value in the wrong unit, a channel count of 3, a supply voltage of 900 V, a value
+offered with no quote at all, and the two that matter most -- an evidence quote that
+appears nowhere in the datasheet, and a quote that does appear but does not state the
+number reported beside it. Grounding alone only proves the line exists; it says
+nothing about the value next to it, because the quote is text the model typed, not
+text a tool handed over.
 
 What survives goes to a model from a *different family* than the agent that produced
 it. A model asked to check its own work tends to agree with it, so the verifier is
@@ -16,12 +18,19 @@ Rejected fields go back to their own agent with the reason attached, for one ret
 from __future__ import annotations
 
 import json
+import os
 import re
 from dataclasses import dataclass, field
 
 from datasheet_agent.llm import Backend, Usage
 from datasheet_agent.schema import FIELDS_BY_NAME, FieldSpec
-from datasheet_agent.units import clean_text, parse_quantity
+from datasheet_agent.units import (
+    Quantity,
+    clean_text,
+    parse_all_quantities,
+    parse_quantity,
+    quantities_match,
+)
 
 # Plausible ranges in base SI units. Deliberately wide: these catch nonsense
 # (a 900 V op-amp supply), not merely unusual parts.
@@ -36,7 +45,36 @@ PLAUSIBLE: dict[str, tuple[float, float]] = {
 }
 
 VALID_CHANNEL_COUNTS = {1, 2, 3, 4, 8}
+# Datasheets state the channel count as a word far more often than as a digit:
+# "Quad Buffer", "Dual Operational Amplifier". A quote saying "Quad" does support
+# the answer 4, and rejecting it would punish the correct reading.
+CHANNEL_WORDS: dict[str, int] = {
+    "single": 1,
+    "mono": 1,
+    "dual": 2,
+    "triple": 3,
+    "quad": 4,
+    "quadruple": 4,
+    "octal": 8,
+}
 MIN_EVIDENCE_CHARS = 8
+
+# The two strict evidence checks are switchable, because measuring them meant
+# running the pipeline with and without each one, and an ablation that needs a
+# source edit is an ablation nobody can reproduce. Both default off: they were
+# measured to cost accuracy. See the verifier table in the README.
+REQUIRE_EVIDENCE = "DSA_REQUIRE_EVIDENCE"
+REQUIRE_VALUE_IN_QUOTE = "DSA_REQUIRE_VALUE_IN_QUOTE"
+
+
+def _enabled(flag: str) -> bool:
+    return os.environ.get(flag, "0").strip().lower() in {"1", "true", "yes"}
+
+# The tools prefix their output with "[page 7]", and models echo that prefix into
+# the quote. It is a pointer, not quoted text, and its page number is not a
+# measurement -- left in, it makes a bare "[page 1]" look like a grounded quote
+# stating the value 1.
+_PAGE_MARKER = re.compile(r"^\s*(?:\[\s*page\s*\d+\s*\]|page\s+\d+\s*[:.-])\s*", re.I)
 EVIDENCE_TOKEN_THRESHOLD = 0.6
 
 
@@ -85,6 +123,11 @@ def _tokens(text: str) -> list[str]:
     return re.findall(r"[a-z0-9]+", text.lower())
 
 
+def quoted_line(evidence: str) -> str:
+    """The quoted text itself, with any page pointer stripped off the front."""
+    return _PAGE_MARKER.sub("", clean_text(evidence)).strip()
+
+
 def evidence_is_grounded(evidence: str, document_text: str) -> bool:
     """True when the quoted evidence really comes from this datasheet.
 
@@ -101,6 +144,52 @@ def evidence_is_grounded(evidence: str, document_text: str) -> bool:
     document_tokens = set(_tokens(document_text))
     present = sum(1 for token in quote_tokens if token in document_tokens)
     return present / len(quote_tokens) >= EVIDENCE_TOKEN_THRESHOLD
+
+
+def value_appears_in_quote(spec: FieldSpec, value: str, evidence: str) -> bool | None:
+    """Whether the reported value is one of the numbers in its own quote.
+
+    Grounding proves the quoted line exists in the datasheet. It does not connect the
+    line to the number reported beside it, so a real table row can be quoted under a
+    value it never states -- an error the token-overlap check cannot see, because every
+    token of the quote really is in the document.
+
+    Returns None when the quote offers nothing comparable (no parseable number, or an
+    unreadable value), because the absence of a number is not evidence of a mismatch.
+
+    This catches a value detached from its quote. It cannot catch the right number read
+    off the wrong parameter -- a transition frequency quoted as a gain-bandwidth product
+    passes, because the number really is on the line. That one needs the model stage.
+    """
+    reported = parse_quantity(value, spec.dimension, assume_unit=spec.unit_hint)
+    if reported is None:
+        return None
+    candidates = parse_all_quantities(evidence, spec.dimension, assume_unit=spec.unit_hint)
+    if spec.name == "num_channels":
+        words = set(_tokens(evidence))
+        candidates += [
+            Quantity(float(count), spec.dimension)
+            for word, count in CHANNEL_WORDS.items()
+            if word in words
+        ]
+    if not candidates:
+        return None
+
+    for candidate in candidates:
+        if quantities_match(candidate, reported):
+            return True
+        # A dual-supply row states "+-18 V" for a part whose total supply is 36 V.
+        if spec.name == "supply_voltage_max" and quantities_match(
+            Quantity(abs(candidate.value) * 2, candidate.dimension), reported
+        ):
+            return True
+        # A range may carry its sign on the range rather than the number:
+        # "40 to 125 C" for a minimum of -40.
+        if spec.dimension == "temperature" and quantities_match(
+            Quantity(-candidate.value, candidate.dimension), reported
+        ):
+            return True
+    return False
 
 
 def code_check(spec: FieldSpec, value: str, evidence: str, document_text: str) -> str:
@@ -129,10 +218,29 @@ def code_check(spec: FieldSpec, value: str, evidence: str, document_text: str) -
         if spec.name == "num_channels" and int(quantity.value) not in VALID_CHANNEL_COUNTS:
             return f"{text!r} is not a real channel count for an op-amp."
 
-    if evidence and not evidence_is_grounded(evidence, document_text):
+    quote = quoted_line(evidence)
+    if not quote:
+        if _enabled(REQUIRE_EVIDENCE):
+            return (
+                "No evidence was quoted for this value. A page number is not a quote: "
+                "quote the datasheet line you took the value from, so it can be checked."
+            )
+        return ""
+
+    if not evidence_is_grounded(quote, document_text):
         return (
             "The quoted evidence does not appear in this datasheet. Re-read the page "
             "and quote the line you took the value from, exactly."
+        )
+
+    if (
+        _enabled(REQUIRE_VALUE_IN_QUOTE)
+        and spec.grader == "numeric"
+        and value_appears_in_quote(spec, text, quote) is False
+    ):
+        return (
+            f"The line you quoted does not state {text!r}. Either quote the line the "
+            f"value actually came from, or report the value that line states."
         )
     return ""
 
